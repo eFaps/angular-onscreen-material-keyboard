@@ -1,5 +1,4 @@
 {
-  "$schema": "../../node_modules/ng-packagr/package.schema.json",
   "name": "angular-onscreen-material-keyboard",
   "version": "0.6.0",
   "description": "This package is forked from ngx-material-keyboard with bug fixes and additional features",
@@ -24,12 +23,6 @@
     "@angular/forms": "^11.0.0 || ^12.0.0",
     "@angular/material": "^11.0.0 || ^12.0.0",
     "rxjs": "^6.6.6"
-  },
-  "ngPackage": {
-    "dest": "../../dist/core",
-    "lib": {
-      "entryFile": "src/public_api.ts"
-    }
   },
   "keywords": [
     "angular",

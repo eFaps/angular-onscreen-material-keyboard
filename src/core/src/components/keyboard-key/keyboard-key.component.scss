@@ -1,5 +1,7 @@
 @use '@angular/material' as mat;
 
+@import '~node_modules/@angular/cdk/overlay';
+
 $mat-typography-config: mat.define-typography-config();
 $mat-keyboard-button-distance: 8px !default;
 $mat-keyboard-capslock-animation-duration: $backdrop-animation-duration !default;
