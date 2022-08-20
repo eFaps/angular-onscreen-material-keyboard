@@ -15,7 +15,6 @@
             "index": "src/demo/index.html",
             "main": "src/demo/main.ts",
             "tsConfig": "src/demo/tsconfig.app.json",
-            "showCircularDependencies": false,
             "polyfills": "src/demo/polyfills.ts",
             "assets": [
               "src/demo/assets",
@@ -112,7 +111,6 @@
       "projectType": "application"
     }
   },
-  "defaultProject": "demo",
   "cli": {
     "warnings": {}
   },
