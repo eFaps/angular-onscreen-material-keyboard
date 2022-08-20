@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 $mat-typography-config: mat.define-typography-config();
 $mat-keyboard-button-distance: 8px !default;

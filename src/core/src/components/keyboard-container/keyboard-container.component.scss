@@ -1,5 +1,5 @@
-@use '~@angular/material' as mat;
-@use '~@angular/cdk' as cdk;
+@use '@angular/material' as mat;
+@use '@angular/cdk' as cdk;
 
 $mat-keyboard-min-width: 568px !default;
 $mat-keyboard-max-width: 960px !default;
