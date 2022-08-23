@@ -55,7 +55,7 @@ $mat-keyboard-padding: 14px 24px !default;
   &-col {
     box-sizing: border-box;
     flex: 1 1 auto;
-    padding: $mat-keyboard-button-distance / 2;
+    padding: calc($mat-keyboard-button-distance / 2);
   }
 
   &-key {

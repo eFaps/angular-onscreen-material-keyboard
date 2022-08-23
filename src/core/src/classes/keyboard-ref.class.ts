@@ -41,7 +41,7 @@ export class MatKeyboardRef<T> {
   /** Marks the keyboard as opened */
   _open() {
     if (!this._afterOpened.closed) {
-      this._afterOpened.next();
+      this._afterOpened.next(null);
       this._afterOpened.complete();
     }
   }
@@ -60,7 +60,7 @@ export class MatKeyboardRef<T> {
   private _finishDismiss() {
     this._overlayRef.dispose();
 
-    this._afterClosed.next();
+    this._afterClosed.next(null);
     this._afterClosed.complete();
   }
 }

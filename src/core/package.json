@@ -16,13 +16,13 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@angular/animations": "^11.0.0 || ^12.0.0",
-    "@angular/cdk": "^11.0.0 || ^12.0.0",
-    "@angular/common": "^11.0.0 || ^12.0.0",
-    "@angular/core": "^11.0.0 || ^12.0.0",
-    "@angular/forms": "^11.0.0 || ^12.0.0",
-    "@angular/material": "^11.0.0 || ^12.0.0",
-    "rxjs": "^6.6.6"
+    "@angular/animations": "^12.0.0 || ^13.0.0 || ^14.0.0",
+    "@angular/cdk": "^12.0.0|| ^13.0.0 || ^14.0.0",
+    "@angular/common": "^12.0.0|| ^13.0.0 || ^14.0.0",
+    "@angular/core": "^12.0.0|| ^13.0.0 || ^14.0.0",
+    "@angular/forms": "^12.0.0|| ^13.0.0 || ^14.0.0",
+    "@angular/material": "^12.0.0|| ^13.0.0 || ^14.0.0",
+    "rxjs": "^7.4.0"
   },
   "keywords": [
     "angular",

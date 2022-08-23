@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, Inject, LOCALE_ID, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatKeyboardRef } from '../../classes/keyboard-ref.class';
 import { KEYBOARD_ICONS } from '../../configs/keyboard-icons.config';
@@ -43,7 +43,7 @@ export class MatKeyboardComponent implements OnInit {
 
   layout: IKeyboardLayout;
 
-  control: AbstractControl;
+  _control: AbstractControl;
 
   // the instance of the component making up the content of the keyboard
   keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
@@ -88,6 +88,10 @@ export class MatKeyboardComponent implements OnInit {
     return this._isDebug.asObservable();
   }
 
+  get control(){
+    return this._control as FormControl
+  }
+ 
   // inject dependencies
   constructor(@Inject(LOCALE_ID) private _locale: string,
               private _keyboardService: MatKeyboardService) { }
@@ -97,7 +101,7 @@ export class MatKeyboardComponent implements OnInit {
   }
 
   attachControl(control: AbstractControl) {
-    this.control = control;
+    this._control = control;
   }
 
   ngOnInit() {
