@@ -20,7 +20,7 @@
     "build:core": "ng-packagr -p ./src/core/ng-package.json && cpx -p README.md dist/core",
     "build:demo": "ng build --configuration production --progress=false --base-href=/demo/",
     "build:docs": "compodoc ./src/core -p ./tsconfig.json --silent --disableCoverage --disablePrivateOrInternalSupport --theme readthedocs --output ./dist/docs",
-    "test": "ng test",
+    "test": "ng test --browsers ChromeHeadlessNoSandbox --no-progress --no-watch",
     "lint": "ng lint",
     "postinstall": "npm rebuild node-sass"
   },
