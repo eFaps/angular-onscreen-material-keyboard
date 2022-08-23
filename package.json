@@ -1,10 +1,10 @@
 {
   "name": "angular-onscreen-material-keyboard",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "This package is forked from ngx-material-keyboard with bug fixes and additional features.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/angular-onscreen-material-keyboard.git"
+    "url": "https://github.com/eFaps/angular-onscreen-material-keyboard.git"
   },
   "author": "Iris X, Daniel M, Kenneth A",
   "license": "MIT",
