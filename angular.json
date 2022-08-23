@@ -84,7 +84,7 @@
             "tsConfig": "src/demo/tsconfig.spec.json",
             "scripts": [],
             "styles": [
-              "node_modules/reset-css/_reset.scss",
+              "node_modules/reset-css/sass/_reset.scss",
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/demo/styles.scss"
             ],
