@@ -13,8 +13,8 @@ jobs:
           node-version: 16
       - name: Install
         run: npm install
-      - name: Test
-        run: npm run test
+      #- name: Test
+      #  run: npm run test
       - name: Build
         run: npm run build
       - name: Publish to npm
