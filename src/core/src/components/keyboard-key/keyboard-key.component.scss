@@ -1,6 +1,9 @@
 @use '@angular/material' as mat;
 
-@import '~node_modules/@angular/cdk/overlay';
+@import '~@angular/cdk/overlay-prebuilt.css';
+
+$backdrop-animation-duration: 400ms !default;
+$backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 
 $mat-typography-config: mat.define-legacy-typography-config();
 $mat-keyboard-button-distance: 8px !default;
