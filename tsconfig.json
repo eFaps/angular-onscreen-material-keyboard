@@ -11,7 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noUnusedParameters": false,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -24,7 +24,8 @@
         "./src/core/src/public_api.ts"
       ]
     },
-    "module": "es2020"
+    "module": "es2020",
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "paths": {
