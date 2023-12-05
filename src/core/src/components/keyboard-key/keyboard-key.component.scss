@@ -5,7 +5,7 @@
 $backdrop-animation-duration: 400ms !default;
 $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 
-$mat-typography-config: mat.define-legacy-typography-config();
+$mat-typography-config: mat.define-typography-config();
 $mat-keyboard-button-distance: 8px !default;
 $mat-keyboard-capslock-animation-duration: $backdrop-animation-duration !default;
 $mat-keyboard-capslock-animation-timing-function: $backdrop-animation-timing-function !default;
