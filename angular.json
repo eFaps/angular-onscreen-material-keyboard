@@ -9,13 +9,16 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/demo",
+            "outputPath": {
+              "base": "dist/demo"
+            },
             "index": "src/demo/index.html",
-            "main": "src/demo/main.ts",
             "tsConfig": "src/demo/tsconfig.app.json",
-            "polyfills": "src/demo/polyfills.ts",
+            "polyfills": [
+              "src/demo/polyfills.ts"
+            ],
             "assets": [
               "src/demo/assets",
               "src/demo/favicon.ico"
@@ -26,12 +29,11 @@
               "src/demo/styles.scss"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "src/demo/main.ts"
           },
           "configurations": {
             "production": {
@@ -46,8 +48,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/demo/environments/environment.ts",
