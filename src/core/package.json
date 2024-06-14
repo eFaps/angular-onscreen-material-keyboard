@@ -1,6 +1,6 @@
 {
   "name": "@efaps/angular-onscreen-material-keyboard",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "This package is forked from ngular-onscreen-material-keyboard to work with angular 15",
   "repository": {
     "type": "git",

@@ -26,6 +26,7 @@
             "styles": [
               "node_modules/reset-css/sass/_reset.scss",
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
               "src/demo/styles.scss"
             ],
             "scripts": [],
@@ -86,6 +87,7 @@
             "styles": [
               "node_modules/reset-css/sass/_reset.scss",
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
               "src/demo/styles.scss"
             ],
             "assets": [

@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-@import '~@angular/cdk/overlay-prebuilt.css';
+// '@angular/cdk/overlay-prebuilt.css';
 
 $backdrop-animation-duration: 400ms !default;
 $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
