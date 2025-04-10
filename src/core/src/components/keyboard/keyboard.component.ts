@@ -15,11 +15,12 @@ import { MatKeyboardKeyComponent } from '../keyboard-key/keyboard-key.component'
  * This should only be used internally by the keyboard service.
  */
 @Component({
-  selector: 'mat-keyboard',
-  templateUrl: './keyboard.component.html',
-  styleUrls: ['./keyboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+    selector: 'mat-keyboard',
+    templateUrl: './keyboard.component.html',
+    styleUrls: ['./keyboard.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    preserveWhitespaces: false,
+    standalone: false
 })
 export class MatKeyboardComponent implements OnInit {
 

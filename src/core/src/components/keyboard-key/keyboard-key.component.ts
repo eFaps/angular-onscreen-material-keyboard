@@ -13,11 +13,12 @@ const REPEAT_TIMEOUT = 500;
 const REPEAT_INTERVAL = 100;
 
 @Component({
-  selector: 'mat-keyboard-key',
-  templateUrl: './keyboard-key.component.html',
-  styleUrls: ['./keyboard-key.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+    selector: 'mat-keyboard-key',
+    templateUrl: './keyboard-key.component.html',
+    styleUrls: ['./keyboard-key.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    preserveWhitespaces: false,
+    standalone: false
 })
 export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
 

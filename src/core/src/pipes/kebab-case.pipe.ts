@@ -1,8 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'matKeyboardKebabCase',
-  pure: false
+    name: 'matKeyboardKebabCase',
+    pure: false,
+    standalone: false
 })
 export class MatKeyboardKebabCasePipe implements PipeTransform {
 

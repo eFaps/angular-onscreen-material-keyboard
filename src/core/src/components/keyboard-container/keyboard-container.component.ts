@@ -18,25 +18,26 @@ export const HIDE_ANIMATION = `${AnimationDurations.EXITING} ${AnimationCurves.A
  * @docs-private
  */
 @Component({
-  selector: 'mat-keyboard-container',
-  templateUrl: './keyboard-container.component.html',
-  styleUrls: ['./keyboard-container.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false,
-  // animations: [
-  //   trigger('state', [
-  //     state('visible', style({transform: 'translateY(0%)'})),
-  //     transition('visible => hidden', animate(HIDE_ANIMATION)),
-  //     transition('void => visible', animate(SHOW_ANIMATION)),
-  //   ])
-  // ]
-  animations: [
-    trigger('state', [
-      state(`${KeyboardAnimationState.Visible}`, style({ transform: 'translateY(0%)' })),
-      transition(`${KeyboardAnimationTransition.Hide}`, animate(HIDE_ANIMATION)),
-      transition(`${KeyboardAnimationTransition.Show}`, animate(SHOW_ANIMATION))
-    ])
-  ]
+    selector: 'mat-keyboard-container',
+    templateUrl: './keyboard-container.component.html',
+    styleUrls: ['./keyboard-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    preserveWhitespaces: false,
+    // animations: [
+    //   trigger('state', [
+    //     state('visible', style({transform: 'translateY(0%)'})),
+    //     transition('visible => hidden', animate(HIDE_ANIMATION)),
+    //     transition('void => visible', animate(SHOW_ANIMATION)),
+    //   ])
+    // ]
+    animations: [
+        trigger('state', [
+            state(`${KeyboardAnimationState.Visible}`, style({ transform: 'translateY(0%)' })),
+            transition(`${KeyboardAnimationTransition.Hide}`, animate(HIDE_ANIMATION)),
+            transition(`${KeyboardAnimationTransition.Show}`, animate(SHOW_ANIMATION))
+        ])
+    ],
+    standalone: false
 })
 export class MatKeyboardContainerComponent extends BasePortalOutlet implements OnDestroy {
 

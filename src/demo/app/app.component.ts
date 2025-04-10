@@ -5,9 +5,10 @@ import { IKeyboardLayout, MatKeyboardComponent, MatKeyboardRef, MatKeyboardServi
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'mat-keyboard-demo-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'mat-keyboard-demo-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
 
