@@ -9,7 +9,7 @@ import { IKeyboardIcons, IMatIcon } from '../../interfaces/keyboard-icons.interf
 import { IKeyboardLayout } from '../../interfaces/keyboard-layout.interface';
 import { MatKeyboardService } from '../../services/keyboard.service';
 import { MatKeyboardKeyComponent } from '../keyboard-key/keyboard-key.component';
-import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 /**
  * A component used to open as the default keyboard, matching material spec.
@@ -21,7 +21,7 @@ import { NgFor, NgIf, AsyncPipe } from '@angular/common';
     styleUrls: ['./keyboard.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
-    imports: [NgFor, NgIf, MatKeyboardKeyComponent, AsyncPipe]
+    imports: [MatKeyboardKeyComponent, AsyncPipe]
 })
 export class MatKeyboardComponent implements OnInit {
 

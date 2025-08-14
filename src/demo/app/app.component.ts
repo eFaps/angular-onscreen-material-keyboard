@@ -7,7 +7,7 @@ import { MatTabGroup, MatTab, MatTabLabel } from '@angular/material/tabs';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { MatSelect, MatOption } from '@angular/material/select';
-import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatFormField, MatInput, MatHint } from '@angular/material/input';
 import { MatKeyboardDirective } from '../../core/src/directives/keyboard.directive';
 
@@ -15,7 +15,7 @@ import { MatKeyboardDirective } from '../../core/src/directives/keyboard.directi
     selector: 'mat-keyboard-demo-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    imports: [MatTabGroup, MatTab, MatTabLabel, MatIcon, FormsModule, MatSlideToggle, MatButton, MatSelect, NgFor, MatOption, NgIf, MatFormField, MatInput, MatHint, MatKeyboardDirective, ReactiveFormsModule, AsyncPipe]
+    imports: [MatTabGroup, MatTab, MatTabLabel, MatIcon, FormsModule, MatSlideToggle, MatButton, MatSelect, MatOption, MatFormField, MatInput, MatHint, MatKeyboardDirective, ReactiveFormsModule, AsyncPipe]
 })
 export class AppComponent implements OnInit, OnDestroy {
 

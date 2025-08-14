@@ -1,26 +1,28 @@
 <div class="mat-keyboard-wrapper"
-     [class.dark-theme]="darkTheme$ | async"
-     [class.debug]="isDebug$ | async"
->
+  [class.dark-theme]="darkTheme$ | async"
+  [class.debug]="isDebug$ | async"
+  >
   <nav class="mat-keyboard-layout">
-    <div class="mat-keyboard-row"
-         *ngFor="let row of layout.keys"
-    >
-      <ng-container *ngFor="let key of row">
-        <mat-keyboard-key class="mat-keyboard-col"
-                          *ngIf="getModifiedKey(key)"
-                          [key]="getModifiedKey(key)"
-                          [icon]="getKeyIcon(key)"
-                          [active]="isActive(key)"
-                          [input]="inputInstance | async"
-                          [control]="control"
-                          (enterClick)="onEnterClick()"
-                          (capsClick)="onCapsClick()"
-                          (altClick)="onAltClick()"
-                          (shiftClick)="onShiftClick()"
-                          (keyClick)="onKeyClick()"
-        ></mat-keyboard-key>
-      </ng-container>
-    </div>
+    @for (row of layout.keys; track row) {
+      <div class="mat-keyboard-row"
+        >
+        @for (key of row; track key) {
+          @if (getModifiedKey(key)) {
+            <mat-keyboard-key class="mat-keyboard-col"
+              [key]="getModifiedKey(key)"
+              [icon]="getKeyIcon(key)"
+              [active]="isActive(key)"
+              [input]="inputInstance | async"
+              [control]="control"
+              (enterClick)="onEnterClick()"
+              (capsClick)="onCapsClick()"
+              (altClick)="onAltClick()"
+              (shiftClick)="onShiftClick()"
+              (keyClick)="onKeyClick()"
+            ></mat-keyboard-key>
+          }
+        }
+      </div>
+    }
   </nav>
 </div>

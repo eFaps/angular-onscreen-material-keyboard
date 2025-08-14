@@ -1,14 +1,17 @@
 <button mat-raised-button
-        class="mat-keyboard-key"
-        tabindex="-1"
-        [class.mat-keyboard-key-active]="active$ | async"
-        [class.mat-keyboard-key-pressed]="pressed$ | async"
-        [ngClass]="cssClass"
-        (click)="onClick($event)"
-        (pointerdown)="onPointerDown()"
-        (pointerleave)="cancelRepeat()"
-        (pointerup)="cancelRepeat()"
->
-  <mat-icon *ngIf="hasIcon; else noIcon" [fontSet]="fontSet" [fontIcon]="fontIcon" [svgIcon]="svgIcon">{{ iconName }}</mat-icon>
-  <ng-template #noIcon>{{ key }}</ng-template>
+  class="mat-keyboard-key"
+  tabindex="-1"
+  [class.mat-keyboard-key-active]="active$ | async"
+  [class.mat-keyboard-key-pressed]="pressed$ | async"
+  [ngClass]="cssClass"
+  (click)="onClick($event)"
+  (pointerdown)="onPointerDown()"
+  (pointerleave)="cancelRepeat()"
+  (pointerup)="cancelRepeat()"
+  >
+  @if (hasIcon) {
+    <mat-icon [fontSet]="fontSet" [fontIcon]="fontIcon" [svgIcon]="svgIcon">{{ iconName }}</mat-icon>
+  } @else {
+    {{ key }}
+  }
 </button>

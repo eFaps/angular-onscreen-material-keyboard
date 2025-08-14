@@ -31,10 +31,14 @@
 
         <div class="col">
           <mat-select name="layout" [placeholder]="'select layout'" [(ngModel)]="locale">
-            <mat-option *ngFor="let layout of layouts" [value]="layout.layout.lang && layout.layout.lang[0] || layout.name">
-              {{layout.layout.name}}
-              <ng-container *ngIf="layout.layout.name !== layout.name">({{layout.name}})</ng-container>
-            </mat-option>
+            @for (layout of layouts; track layout) {
+              <mat-option [value]="layout.layout.lang && layout.layout.lang[0] || layout.name">
+                {{layout.layout.name}}
+                @if (layout.layout.name !== layout.name) {
+                  ({{layout.name}})
+                }
+              </mat-option>
+            }
           </mat-select>
 
           <button mat-raised-button type="button" (click)="openKeyboard(locale)" aria-label="Open selected keyboard">
@@ -121,11 +125,13 @@
 
       <section class="row">
         <div class="col">
-          <pre *ngFor="let submittedForm of submittedForms | async">
-            <ng-container *ngFor="let submitedValue of submittedForm">
-              {{ submitedValue.control }}: {{ submitedValue.value }}<br>
-            </ng-container>
-          </pre>
+          @for (submittedForm of submittedForms | async; track submittedForm) {
+            <pre>
+              @for (submitedValue of submittedForm; track submitedValue) {
+                {{ submitedValue.control }}: {{ submitedValue.value }}<br>
+              }
+            </pre>
+          }
         </div>
 
         <div class="col">
