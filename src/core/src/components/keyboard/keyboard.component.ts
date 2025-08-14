@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, Inject, LOCALE_ID, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, LOCALE_ID, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatKeyboardRef } from '../../classes/keyboard-ref.class';
@@ -24,6 +24,9 @@ import { AsyncPipe } from '@angular/common';
     imports: [MatKeyboardKeyComponent, AsyncPipe]
 })
 export class MatKeyboardComponent implements OnInit {
+  private _locale = inject(LOCALE_ID);
+  private _keyboardService = inject(MatKeyboardService);
+
 
   private _darkTheme: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -93,10 +96,6 @@ export class MatKeyboardComponent implements OnInit {
   get control(){
     return this._control as FormControl
   }
- 
-  // inject dependencies
-  constructor(@Inject(LOCALE_ID) private _locale: string,
-              private _keyboardService: MatKeyboardService) { }
 
   setInputInstance(inputInstance: ElementRef) {
     this._inputInstance$.next(inputInstance);

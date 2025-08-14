@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ComponentRef, Inject, Injectable, LOCALE_ID, Optional, SkipSelf } from '@angular/core';
+import { ComponentRef, Injectable, LOCALE_ID, inject } from '@angular/core';
 
 import { MatKeyboardRef } from '../classes/keyboard-ref.class';
 import { MatKeyboardContainerComponent } from '../components/keyboard-container/keyboard-container.component';
@@ -18,6 +18,12 @@ import { _applyAvailableLayouts, _applyConfigDefaults } from '../utils/keyboard.
  */
 @Injectable()
 export class MatKeyboardService {
+  private _overlay = inject(Overlay);
+  private _live = inject(LiveAnnouncer);
+  private _defaultLocale = inject(LOCALE_ID);
+  private _layouts = inject<IKeyboardLayouts>(MAT_KEYBOARD_LAYOUTS);
+  private _parentKeyboard = inject(MatKeyboardService, { optional: true, skipSelf: true });
+
   /**
    * Reference to the current keyboard in the view *at this level* (in the Angular injector tree).
    * If there is a parent keyboard service, all operations should delegate to that parent
@@ -49,11 +55,9 @@ export class MatKeyboardService {
     return !!this._openedKeyboardRef;
   }
 
-  constructor(private _overlay: Overlay,
-              private _live: LiveAnnouncer,
-              @Inject(LOCALE_ID) private _defaultLocale: string,
-              @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts: IKeyboardLayouts,
-              @Optional() @SkipSelf() private _parentKeyboard: MatKeyboardService) {
+  constructor() {
+    const _layouts = this._layouts;
+
     // prepare available layouts mapping
     this._availableLocales = _applyAvailableLayouts(_layouts);
   }

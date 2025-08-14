@@ -1,6 +1,6 @@
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, PortalHostDirective } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EmbeddedViewRef, HostBinding, HostListener, NgZone, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EmbeddedViewRef, HostBinding, HostListener, NgZone, OnDestroy, ViewChild, inject } from '@angular/core';
 import { AnimationCurves, AnimationDurations } from '@angular/material/core';
 import { Observable, Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -40,6 +40,9 @@ export const HIDE_ANIMATION = `${AnimationDurations.EXITING} ${AnimationCurves.A
     imports: [PortalHostDirective]
 })
 export class MatKeyboardContainerComponent extends BasePortalOutlet implements OnDestroy {
+  private _ngZone = inject(NgZone);
+  private _changeDetectorRef = inject(ChangeDetectorRef);
+
 
   /** Whether the component has been destroyed. */
   private _destroyed = false;
@@ -63,11 +66,6 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
 
   // the keyboard configuration
   keyboardConfig: MatKeyboardConfig;
-
-  constructor(private _ngZone: NgZone,
-              private _changeDetectorRef: ChangeDetectorRef) {
-    super();
-  }
 
   @HostListener('mousedown', ['$event'])
   onMousedown(event: MouseEvent) {

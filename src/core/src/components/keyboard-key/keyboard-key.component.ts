@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { MAT_KEYBOARD_DEADKEYS } from '../../configs/keyboard-deadkey.config';
@@ -24,6 +24,8 @@ const REPEAT_INTERVAL = 100;
     imports: [MatButton, NgClass, MatIcon, AsyncPipe]
 })
 export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
+  private _deadkeys = inject<IKeyboardDeadkeys>(MAT_KEYBOARD_DEADKEYS);
+
 
   private _deadkeyKeys: string[] = [];
   private _repeatTimeoutHandler: any;
@@ -159,9 +161,6 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
       this.input.nativeElement.value = inputValue;
     }
   }
-
-  // Inject dependencies
-  constructor(@Inject(MAT_KEYBOARD_DEADKEYS) private _deadkeys: IKeyboardDeadkeys) { }
 
   ngOnInit() {
     // read the deadkeys

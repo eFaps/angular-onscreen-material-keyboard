@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, LOCALE_ID, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { UntypedFormControl, NgControl, NgForm, NgModel, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleChange, MatSlideToggle } from '@angular/material/slide-toggle';
 import { IKeyboardLayout, MatKeyboardComponent, MatKeyboardRef, MatKeyboardService, MAT_KEYBOARD_LAYOUTS } from 'angular-onscreen-material-keyboard';
@@ -18,6 +18,10 @@ import { MatKeyboardDirective } from '../../core/src/directives/keyboard.directi
     imports: [MatTabGroup, MatTab, MatTabLabel, MatIcon, FormsModule, MatSlideToggle, MatButton, MatSelect, MatOption, MatFormField, MatInput, MatHint, MatKeyboardDirective, ReactiveFormsModule, AsyncPipe]
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private _keyboardService = inject(MatKeyboardService);
+  locale = inject(LOCALE_ID);
+  private _layouts = inject(MAT_KEYBOARD_LAYOUTS);
+
 
   private _enterSubscription: Subscription;
 
@@ -59,10 +63,6 @@ export class AppComponent implements OnInit, OnDestroy {
   get keyboardVisible(): boolean {
     return this._keyboardService.isOpened;
   }
-
-  constructor(private _keyboardService: MatKeyboardService,
-    @Inject(LOCALE_ID) public locale,
-    @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts) { }
 
   ngOnInit() {
     this.defaultLocale = ` ${this.locale}`.slice(1);
