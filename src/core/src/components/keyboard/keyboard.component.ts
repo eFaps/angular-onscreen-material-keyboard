@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, LOCALE_ID, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, LOCALE_ID, OnInit, inject, viewChildren } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MatKeyboardRef } from '../../classes/keyboard-ref.class';
@@ -34,8 +34,7 @@ export class MatKeyboardComponent implements OnInit {
 
   private _inputInstance$: BehaviorSubject<ElementRef | null> = new BehaviorSubject(null);
 
-  @ViewChildren(MatKeyboardKeyComponent)
-  private _keys: QueryList<MatKeyboardKeyComponent>;
+  private readonly _keys = viewChildren(MatKeyboardKeyComponent);
 
   private _modifier: KeyboardModifier = KeyboardModifier.None;
 
@@ -156,7 +155,7 @@ export class MatKeyboardComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     // 'activate' corresponding key
-    this._keys
+    this._keys()
       .filter((key: MatKeyboardKeyComponent) => key.key() === event.key)
       .forEach((key: MatKeyboardKeyComponent) => {
         key.pressed = true;
@@ -181,7 +180,7 @@ export class MatKeyboardComponent implements OnInit {
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
     // 'deactivate' corresponding key
-    this._keys
+    this._keys()
       .filter((key: MatKeyboardKeyComponent) => key.key() === event.key)
       .forEach((key: MatKeyboardKeyComponent) => {
         key.pressed = false;

@@ -1,6 +1,6 @@
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, PortalHostDirective } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EmbeddedViewRef, HostBinding, HostListener, NgZone, OnDestroy, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EmbeddedViewRef, HostBinding, HostListener, NgZone, OnDestroy, inject, viewChild } from '@angular/core';
 import { AnimationCurves, AnimationDurations } from '@angular/material/core';
 import { Observable, Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -48,8 +48,7 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
   private _destroyed = false;
 
   /** The portal outlet inside of this container into which the keyboard content will be loaded. */
-  @ViewChild(CdkPortalOutlet, { static: true })
-  private _portalOutlet: CdkPortalOutlet;
+  private readonly _portalOutlet = viewChild(CdkPortalOutlet);
 
   /** The state of the keyboard animations. */
   @HostBinding('@state')
@@ -74,11 +73,12 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
 
   /** Attach a component portal as content to this keyboard container. */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
-    if (this._portalOutlet.hasAttached()) {
+    const _portalOutlet = this._portalOutlet();
+    if (_portalOutlet.hasAttached()) {
       throw Error('Attempting to attach keyboard content after content is already attached');
     }
 
-    return this._portalOutlet.attachComponentPortal(portal);
+    return _portalOutlet.attachComponentPortal(portal);
   }
 
   // Attach a template portal as content to this keyboard container

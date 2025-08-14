@@ -1,4 +1,4 @@
-import { Component, ElementRef, LOCALE_ID, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, LOCALE_ID, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { UntypedFormControl, NgControl, NgForm, NgModel, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleChange, MatSlideToggle } from '@angular/material/slide-toggle';
 import { IKeyboardLayout, MatKeyboardComponent, MatKeyboardRef, MatKeyboardService, MAT_KEYBOARD_LAYOUTS } from 'angular-onscreen-material-keyboard';
@@ -29,11 +29,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private _submittedForms = new BehaviorSubject<{ control: string, value: string }[][]>([]);
 
-  @ViewChild('attachTo', { read: ElementRef, static: true })
-  private _attachToElement: ElementRef;
+  private readonly _attachToElement = viewChild('attachTo', { read: ElementRef });
 
-  @ViewChild('attachTo', { read: NgModel, static: true })
-  private _attachToControl: NgControl;
+  private readonly _attachToControl = viewChild('attachTo', { read: NgModel });
 
   get submittedForms(): Observable<{ control: string, value: string }[][]> {
     return this._submittedForms.asObservable();
@@ -120,10 +118,10 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     // reference the input element
-    this._keyboardRef.instance.setInputInstance(this._attachToElement);
+    this._keyboardRef.instance.setInputInstance(this._attachToElement());
 
     // set control
-    this._keyboardRef.instance.attachControl(this._attachToControl.control);
+    this._keyboardRef.instance.attachControl(this._attachToControl().control);
   }
 
   toggleDebug(toggle: MatSlideToggleChange) {
