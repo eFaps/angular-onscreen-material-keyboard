@@ -16,13 +16,17 @@ import { _applyAvailableLayouts, _applyConfigDefaults } from '../utils/keyboard.
 /**
  * Service to dispatch Material Design keyboard.
  */
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class MatKeyboardService {
   private overlay = inject(Overlay);
   private live = inject(LiveAnnouncer);
   private defaultLocale = inject(LOCALE_ID);
   private layouts = inject<IKeyboardLayouts>(MAT_KEYBOARD_LAYOUTS);
   private parentKeyboard = inject(MatKeyboardService, { optional: true, skipSelf: true });
+
+  private _enableDirective = true;
 
   /**
    * Reference to the current keyboard in the view *at this level* (in the Angular injector tree).
@@ -58,6 +62,14 @@ export class MatKeyboardService {
   constructor() {
     // prepare available layouts mapping
     this._availableLocales = _applyAvailableLayouts(this.layouts);
+  }
+
+  set enableDirective(enable: boolean) {
+    this._enableDirective = enable;
+  }
+
+  get enableDirective() {
+    return this._enableDirective;
   }
 
   /**

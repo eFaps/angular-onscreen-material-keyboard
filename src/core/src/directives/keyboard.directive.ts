@@ -9,16 +9,14 @@ import { MatKeyboardService } from '../services/keyboard.service';
   host: {
     "(focus)" :"onFocus()",
     "(blur)" :"onBlur()"
-  },
-  providers: [MatKeyboardService],
+  }
 })
 export class MatKeyboardDirective implements OnDestroy {
-  private _elementRef = inject(ElementRef);
-  private _keyboardService = inject(MatKeyboardService);
-  private _control = inject(NgControl, { optional: true, self: true });
+  private elementRef = inject(ElementRef);
+  private keyboardService = inject(MatKeyboardService);
+  private control = inject(NgControl, { optional: true, self: true });
 
-
-  private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
+  private keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
 
   readonly matKeyboard = input<string>(undefined);
 
@@ -41,33 +39,32 @@ export class MatKeyboardDirective implements OnDestroy {
   }
 
   public onFocus() {
-    console.log('focusevent')
-    this._keyboardRef = this._keyboardService.open(this.matKeyboard(), {
-      darkTheme: this.darkTheme(),
-      duration: this.duration(),
-      isDebug: this.isDebug()
-    });
+    if (this.keyboardService.enableDirective) {
+      this.keyboardRef = this.keyboardService.open(this.matKeyboard(), {
+        darkTheme: this.darkTheme(),
+        duration: this.duration(),
+        isDebug: this.isDebug()
+      });
 
-    // reference the input element
-    this._keyboardRef.instance.setInputInstance(this._elementRef);
+      // reference the input element
+      this.keyboardRef.instance.setInputInstance(this.elementRef);
 
-    // set control if given, cast to smth. non-abstract
-    if (this._control) {
-      this._keyboardRef.instance.attachControl(this._control.control);
+      // set control if given, cast to smth. non-abstract
+      if (this.control) {
+        this.keyboardRef.instance.attachControl(this.control.control);
+      }
+
+      // connect outputs
+      this.keyboardRef.instance.enterClick.subscribe(() => this.enterClick.emit());
+      this.keyboardRef.instance.capsClick.subscribe(() => this.capsClick.emit());
+      this.keyboardRef.instance.altClick.subscribe(() => this.altClick.emit());
+      this.keyboardRef.instance.shiftClick.subscribe(() => this.shiftClick.emit());
     }
-
-    // connect outputs
-    this._keyboardRef.instance.enterClick.subscribe(() => this.enterClick.emit());
-    this._keyboardRef.instance.capsClick.subscribe(() => this.capsClick.emit());
-    this._keyboardRef.instance.altClick.subscribe(() => this.altClick.emit());
-    this._keyboardRef.instance.shiftClick.subscribe(() => this.shiftClick.emit());
   }
 
   public onBlur() {
-     console.log('blurevent')
-    if (this._keyboardRef) {
-      this._keyboardRef.dismiss();
+    if (this.keyboardRef) {
+      this.keyboardRef.dismiss();
     }
   }
-
 }
