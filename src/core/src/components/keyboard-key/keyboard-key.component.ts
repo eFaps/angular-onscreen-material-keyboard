@@ -243,7 +243,7 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   }
 
   // Handle repeating keys. Keypress logic derived from onClick()
-  onPointerDown() {
+  onPointerDown(event: PointerEvent) {
     this.cancelRepeat();
     this._repeatState = false;
     this._repeatTimeoutHandler = setTimeout(() => {
@@ -265,27 +265,23 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
         case KeyboardClassKey.Bksp:
           keyFn = () => {
             this.deleteSelectedText();
-            // TODO: The 'emit' function requires a mandatory MouseEvent argument
-            this.bkspClick.emit();
+            this.bkspClick.emit(event);
           };
           break;
 
         case KeyboardClassKey.Space:
           char = VALUE_SPACE;
-          keyFn = () => // TODO: The 'emit' function requires a mandatory MouseEvent argument
-          keyFn = () => this.spaceClick.emit();
+          keyFn = () => this.spaceClick.emit(event);
           break;
 
         case KeyboardClassKey.Tab:
           char = VALUE_TAB;
-          keyFn = () => // TODO: The 'emit' function requires a mandatory MouseEvent argument
-          keyFn = () => this.tabClick.emit();
+          keyFn = () => this.tabClick.emit(event);
           break;
 
         default:
           char = `${key}`;
-          keyFn = () => // TODO: The 'emit' function requires a mandatory MouseEvent argument
-          keyFn = () => this.keyClick.emit();
+          keyFn = () => this.keyClick.emit(event);
           break;
       }
 

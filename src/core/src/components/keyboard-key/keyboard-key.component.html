@@ -5,7 +5,7 @@
   [class.mat-keyboard-key-pressed]="pressed$ | async"
   [ngClass]="cssClass"
   (click)="onClick($event)"
-  (pointerdown)="onPointerDown()"
+  (pointerdown)="onPointerDown($event)"
   (pointerleave)="cancelRepeat()"
   (pointerup)="cancelRepeat()"
   >
