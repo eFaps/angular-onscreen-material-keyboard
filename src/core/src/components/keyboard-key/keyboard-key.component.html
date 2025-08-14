@@ -1,4 +1,5 @@
-<button mat-raised-button
+<button
+  mat-raised-button
   class="mat-keyboard-key"
   tabindex="-1"
   [class.mat-keyboard-key-active]="active$ | async"
@@ -7,10 +8,11 @@
   (click)="onClick($event)"
   (pointerdown)="onPointerDown($event)"
   (pointerleave)="cancelRepeat()"
-  (pointerup)="cancelRepeat()"
-  >
+  (pointerup)="cancelRepeat()">
   @if (hasIcon) {
-    <mat-icon [fontSet]="fontSet" [fontIcon]="fontIcon" [svgIcon]="svgIcon">{{ iconName }}</mat-icon>
+    <mat-icon [fontSet]="fontSet" [fontIcon]="fontIcon" [svgIcon]="svgIcon">{{
+      iconName
+    }}</mat-icon>
   } @else {
     {{ key() }}
   }

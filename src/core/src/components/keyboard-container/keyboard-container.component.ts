@@ -1,34 +1,48 @@
+import {
+  BasePortalOutlet,
+  CdkPortalOutlet,
+  ComponentPortal,
+} from "@angular/cdk/portal";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ComponentRef,
+  EmbeddedViewRef,
+  HostListener,
+  OnDestroy,
+  signal,
+  viewChild,
+} from "@angular/core";
+import { Observable, Subject } from "rxjs";
 
-import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, Component, ComponentRef, EmbeddedViewRef,  HostListener, OnDestroy,  signal, viewChild } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { MatKeyboardConfig } from '../../configs/keyboard.config';
+import { MatKeyboardConfig } from "../../configs/keyboard.config";
 
 /**
  * Internal component that wraps user-provided keyboard content.
  * @docs-private
  */
 @Component({
-    selector: 'mat-keyboard-container',
-    templateUrl: './keyboard-container.component.html',
-    styleUrls: ['./keyboard-container.component.scss'],
-    host: {
-      '[attr.role]': 'alert',
-      '[class.visible]': 'isVisible()',
-      '(transitionend)': 'transitionend()'
-    },
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    preserveWhitespaces: false,
-    imports: [CdkPortalOutlet]
+  selector: "mat-keyboard-container",
+  templateUrl: "./keyboard-container.component.html",
+  styleUrls: ["./keyboard-container.component.scss"],
+  host: {
+    "[attr.role]": "alert",
+    "[class.visible]": "isVisible()",
+    "(transitionend)": "transitionend()",
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false,
+  imports: [CdkPortalOutlet],
 })
-export class MatKeyboardContainerComponent extends BasePortalOutlet implements OnDestroy {
-
+export class MatKeyboardContainerComponent
+  extends BasePortalOutlet
+  implements OnDestroy
+{
   /** Whether the component has been destroyed. */
   private destroyed = false;
 
   /** The portal outlet inside of this container into which the keyboard content will be loaded. */
   private readonly portalOutlet = viewChild(CdkPortalOutlet);
-
 
   /** Subject for notifying that the keyboard has exited from view. */
   onExit: Subject<void> = new Subject();
@@ -36,14 +50,14 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
   /** Subject for notifying that the keyboard has finished entering the view. */
   onEnter: Subject<void> = new Subject();
 
-  isVisible = signal<boolean>(false)
+  isVisible = signal<boolean>(false);
 
   // the keyboard configuration
   keyboardConfig: MatKeyboardConfig;
 
-  hasTransitionend = false
+  hasTransitionend = false;
 
-  @HostListener('mousedown', ['$event'])
+  @HostListener("mousedown", ["$event"])
   onMousedown(event: MouseEvent) {
     event.preventDefault();
   }
@@ -52,7 +66,9 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
     const outlet = this.portalOutlet();
     if (outlet.hasAttached()) {
-      throw Error('Attempting to attach keyboard content after content is already attached');
+      throw Error(
+        "Attempting to attach keyboard content after content is already attached",
+      );
     }
 
     return outlet.attachComponentPortal(portal);
@@ -60,23 +76,22 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
 
   // Attach a template portal as content to this keyboard container
   attachTemplatePortal(): EmbeddedViewRef<any> {
-    throw Error('Not yet implemented');
+    throw Error("Not yet implemented");
   }
-
 
   /** Begin animation of keyboard entrance into view. */
   enter() {
     if (!this.destroyed) {
-      this.isVisible.set(true)
+      this.isVisible.set(true);
     }
   }
 
   /** Begin animation of the snack bar exiting from view. */
   exit(): Observable<void> {
-    this.isVisible.set(false)
+    this.isVisible.set(false);
     if (!this.hasTransitionend) {
-       this.onExit.next();
-      this. onExit.complete();
+      this.onExit.next();
+      this.onExit.complete();
     }
     return this.onExit;
   }
@@ -87,18 +102,17 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
   ngOnDestroy() {
     this.destroyed = true;
     this.onExit.next();
-    this. onExit.complete();
+    this.onExit.complete();
   }
 
-
   transitionend() {
-    this.hasTransitionend = true
+    this.hasTransitionend = true;
     if (this.isVisible()) {
       this.onEnter.next();
-      this. onEnter.complete();
+      this.onEnter.complete();
     } else {
       this.onExit.next();
-      this. onExit.complete();
+      this.onExit.complete();
     }
   }
 }

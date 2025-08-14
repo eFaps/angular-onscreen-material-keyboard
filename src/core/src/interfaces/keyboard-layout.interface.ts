@@ -1,4 +1,4 @@
-import { KeyboardClassKey } from '../enums/keyboard-class-key.enum';
+import { KeyboardClassKey } from "../enums/keyboard-class-key.enum";
 
 export interface IKeyboardLayout {
   name: string;

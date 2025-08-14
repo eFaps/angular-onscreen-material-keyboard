@@ -1,27 +1,38 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, inject, input, output } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
-import { MAT_KEYBOARD_DEADKEYS } from '../../configs/keyboard-deadkey.config';
-import { KeyboardClassKey } from '../../enums/keyboard-class-key.enum';
-import { IKeyboardDeadkeys } from '../../interfaces/keyboard-deadkeys.interface';
-import { IMatIcon } from '../../interfaces/keyboard-icons.interface';
-import { MatButton } from '@angular/material/button';
-import { NgClass, AsyncPipe } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
+import { NgClass, AsyncPipe } from "@angular/common";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  inject,
+  input,
+  output,
+} from "@angular/core";
+import { UntypedFormControl } from "@angular/forms";
+import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { BehaviorSubject } from "rxjs";
 
-export const VALUE_NEWLINE = '\n\r';
-export const VALUE_SPACE = ' ';
-export const VALUE_TAB = '\t';
+import { MAT_KEYBOARD_DEADKEYS } from "../../configs/keyboard-deadkey.config";
+import { KeyboardClassKey } from "../../enums/keyboard-class-key.enum";
+import { IKeyboardDeadkeys } from "../../interfaces/keyboard-deadkeys.interface";
+import { IMatIcon } from "../../interfaces/keyboard-icons.interface";
+
+export const VALUE_NEWLINE = "\n\r";
+export const VALUE_SPACE = " ";
+export const VALUE_TAB = "\t";
 const REPEAT_TIMEOUT = 500;
 const REPEAT_INTERVAL = 100;
 
 @Component({
-    selector: 'mat-keyboard-key',
-    templateUrl: './keyboard-key.component.html',
-    styleUrls: ['./keyboard-key.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    preserveWhitespaces: false,
-    imports: [MatButton, NgClass, MatIcon, AsyncPipe]
+  selector: "mat-keyboard-key",
+  templateUrl: "./keyboard-key.component.html",
+  styleUrls: ["./keyboard-key.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false,
+  imports: [MatButton, NgClass, MatIcon, AsyncPipe],
 })
 export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   private _deadkeys = inject<IKeyboardDeadkeys>(MAT_KEYBOARD_DEADKEYS);
@@ -91,7 +102,9 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   }
 
   get isDeadKey(): boolean {
-    return this._deadkeyKeys.some((deadKey: string) => deadKey === `${this.key()}`);
+    return this._deadkeyKeys.some(
+      (deadKey: string) => deadKey === `${this.key()}`,
+    );
   }
 
   get hasIcon(): boolean {
@@ -100,34 +113,34 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   }
 
   get iconName(): string {
-    return this.icon().name || '';
+    return this.icon().name || "";
   }
 
   get fontSet(): string {
-    return this.icon().fontSet || '';
+    return this.icon().fontSet || "";
   }
 
   get fontIcon(): string {
-    return this.icon().fontIcon || '';
+    return this.icon().fontIcon || "";
   }
 
   get svgIcon(): string {
-    return this.icon().svgIcon || '';
+    return this.icon().svgIcon || "";
   }
 
   get cssClass(): string {
     const classes = [];
 
     if (this.hasIcon) {
-      classes.push('mat-keyboard-key-modifier');
+      classes.push("mat-keyboard-key-modifier");
       classes.push(`mat-keyboard-key-${this.lowerKey}`);
     }
 
     if (this.isDeadKey) {
-      classes.push('mat-keyboard-key-deadkey');
+      classes.push("mat-keyboard-key-deadkey");
     }
 
-    return classes.join(' ');
+    return classes.join(" ");
   }
 
   get inputValue(): string {
@@ -138,7 +151,7 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
     } else if (input && input.nativeElement && input.nativeElement.value) {
       return input.nativeElement.value;
     } else {
-      return '';
+      return "";
     }
   }
 
@@ -166,7 +179,9 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
     this.genericClick.emit(event);
 
     // Do not execute keypress if key is currently repeating
-    if (this._repeatState) { return; }
+    if (this._repeatState) {
+      return;
+    }
 
     // Trigger a global key event. TODO: investigate
     // this._triggerKeyEvent();
@@ -235,7 +250,9 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
     // Dispatch Input Event for Angular to register a change
     if (input && input.nativeElement) {
       setTimeout(() => {
-        this.input().nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+        this.input().nativeElement.dispatchEvent(
+          new Event("input", { bubbles: true }),
+        );
       });
     }
   }
@@ -288,7 +305,9 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
         const caret = this.input() ? this._getCursorPosition() : 0;
         this._repeatState = true;
 
-        if (keyFn) { keyFn(); }
+        if (keyFn) {
+          keyFn();
+        }
 
         const input = this.input();
         if (char && input) {
@@ -297,7 +316,11 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
         }
 
         if (input && input.nativeElement) {
-          setTimeout(() => this.input().nativeElement.dispatchEvent(new Event('input', { bubbles: true })));
+          setTimeout(() =>
+            this.input().nativeElement.dispatchEvent(
+              new Event("input", { bubbles: true }),
+            ),
+          );
         }
       }, REPEAT_INTERVAL);
     }, REPEAT_TIMEOUT);
@@ -316,7 +339,7 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   }
 
   private deleteSelectedText(): void {
-    const value = this.inputValue ? this.inputValue.toString() : '';
+    const value = this.inputValue ? this.inputValue.toString() : "";
     let caret = this.input() ? this._getCursorPosition() : 0;
     let selectionLength = this._getSelectionLength();
     if (selectionLength === 0) {
@@ -331,18 +354,18 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
     const headPart = value.slice(0, caret);
     const endPart = value.slice(caret + selectionLength);
 
-    this.inputValue = [headPart, endPart].join('');
+    this.inputValue = [headPart, endPart].join("");
     this._setCursorPosition(caret);
   }
 
   private replaceSelectedText(char: string): void {
-    const value = this.inputValue ? this.inputValue.toString() : '';
+    const value = this.inputValue ? this.inputValue.toString() : "";
     const caret = this.input() ? this._getCursorPosition() : 0;
     const selectionLength = this._getSelectionLength();
     const headPart = value.slice(0, caret);
     const endPart = value.slice(caret + selectionLength);
 
-    this.inputValue = [headPart, char, endPart].join('');
+    this.inputValue = [headPart, char, endPart].join("");
   }
 
   // TODO: Include for repeating keys as well (if this gets implemented)
@@ -374,16 +397,16 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if ('selectionStart' in input.nativeElement) {
+    if ("selectionStart" in input.nativeElement) {
       // Standard-compliant browsers
       return input.nativeElement.selectionStart;
-    } else if ('selection' in window.document) {
+    } else if ("selection" in window.document) {
       // IE
       input.nativeElement.focus();
-      const selection: any = window.document['selection'];
+      const selection: any = window.document["selection"];
       const sel = selection.createRange();
       const selLen = selection.createRange().text.length;
-      sel.moveStart('character', -this.control().value.length);
+      sel.moveStart("character", -this.control().value.length);
 
       return sel.text.length - selLen;
     }
@@ -395,15 +418,17 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if ('selectionEnd' in input.nativeElement) {
+    if ("selectionEnd" in input.nativeElement) {
       // Standard-compliant browsers
-      return input.nativeElement.selectionEnd - input.nativeElement.selectionStart;
+      return (
+        input.nativeElement.selectionEnd - input.nativeElement.selectionStart
+      );
     }
 
-    if ('selection' in window.document) {
+    if ("selection" in window.document) {
       // IE
       input.nativeElement.focus();
-      const selection: any = window.document['selection'];
+      const selection: any = window.document["selection"];
       return selection.createRange().text.length;
     }
   }
@@ -422,14 +447,17 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
     // to make sure we don't have it everything -selected-
     // (it causes an issue in chrome, and having it doesn't hurt any other browser)
 
-    if ('createTextRange' in input.nativeElement) {
+    if ("createTextRange" in input.nativeElement) {
       const range = input.nativeElement.createTextRange();
-      range.move('character', position);
+      range.move("character", position);
       range.select();
       return true;
     } else {
       // (el.selectionStart === 0 added for Firefox bug)
-      if (input.nativeElement.selectionStart || input.nativeElement.selectionStart === 0) {
+      if (
+        input.nativeElement.selectionStart ||
+        input.nativeElement.selectionStart === 0
+      ) {
         input.nativeElement.focus();
         input.nativeElement.setSelectionRange(position, position);
         return true;
@@ -444,7 +472,8 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
 
   private _isTextarea(): boolean {
     const input = this.input();
-    return input && input.nativeElement && input.nativeElement.tagName === 'TEXTAREA';
+    return (
+      input && input.nativeElement && input.nativeElement.tagName === "TEXTAREA"
+    );
   }
-
 }

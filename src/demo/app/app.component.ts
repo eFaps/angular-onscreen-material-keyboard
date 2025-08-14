@@ -1,39 +1,82 @@
-import { Component, ElementRef, LOCALE_ID, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
-import { UntypedFormControl, NgForm, NgModel, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSlideToggleChange, MatSlideToggle } from '@angular/material/slide-toggle';
-import { IKeyboardLayout, MatKeyboardComponent, MatKeyboardRef, MatKeyboardService, MAT_KEYBOARD_LAYOUTS } from 'angular-onscreen-material-keyboard';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { MatTabGroup, MatTab, MatTabLabel } from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButton } from '@angular/material/button';
-import { MatSelect, MatOption } from '@angular/material/select';
-import { AsyncPipe } from '@angular/common';
-import { MatFormField, MatInput, MatHint } from '@angular/material/input';
-import { MatKeyboardDirective } from '../../core/src/directives/keyboard.directive';
+import { AsyncPipe } from "@angular/common";
+import {
+  Component,
+  ElementRef,
+  LOCALE_ID,
+  OnDestroy,
+  OnInit,
+  inject,
+  viewChild,
+} from "@angular/core";
+import {
+  UntypedFormControl,
+  NgForm,
+  NgModel,
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import { MatButton } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormField, MatInput, MatHint } from "@angular/material/input";
+import { MatSelect, MatOption } from "@angular/material/select";
+import {
+  MatSlideToggleChange,
+  MatSlideToggle,
+} from "@angular/material/slide-toggle";
+import { MatTabGroup, MatTab, MatTabLabel } from "@angular/material/tabs";
+import { BehaviorSubject, Observable, Subscription } from "rxjs";
+
+import { MatKeyboardDirective } from "../../core/src/directives/keyboard.directive";
+import {
+  IKeyboardLayout,
+  MatKeyboardComponent,
+  MatKeyboardRef,
+  MatKeyboardService,
+  MAT_KEYBOARD_LAYOUTS,
+} from "angular-onscreen-material-keyboard";
 
 @Component({
-    selector: 'mat-keyboard-demo-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    imports: [MatTabGroup, MatTab, MatTabLabel, MatIconModule, FormsModule, MatSlideToggle, MatButton, MatSelect, MatOption, MatFormField, MatInput, MatHint, MatKeyboardDirective, ReactiveFormsModule, AsyncPipe]
+  selector: "mat-keyboard-demo-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
+  imports: [
+    MatTabGroup,
+    MatTab,
+    MatTabLabel,
+    MatIconModule,
+    FormsModule,
+    MatSlideToggle,
+    MatButton,
+    MatSelect,
+    MatOption,
+    MatFormField,
+    MatInput,
+    MatHint,
+    MatKeyboardDirective,
+    ReactiveFormsModule,
+    AsyncPipe,
+  ],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private _keyboardService = inject(MatKeyboardService);
   locale = inject(LOCALE_ID);
   private _layouts = inject(MAT_KEYBOARD_LAYOUTS);
 
-
   private _enterSubscription: Subscription;
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
 
-  private _submittedForms = new BehaviorSubject<{ control: string, value: string }[][]>([]);
+  private _submittedForms = new BehaviorSubject<
+    { control: string; value: string }[][]
+  >([]);
 
-  private readonly _attachToElement = viewChild('attachTo', { read: ElementRef });
+  private readonly _attachToElement = viewChild("attachTo", {
+    read: ElementRef,
+  });
 
-  private readonly _attachToControl = viewChild('attachTo', { read: NgModel });
+  private readonly _attachToControl = viewChild("attachTo", { read: NgModel });
 
-  get submittedForms(): Observable<{ control: string, value: string }[][]> {
+  get submittedForms(): Observable<{ control: string; value: string }[][]> {
     return this._submittedForms.asObservable();
   }
 
@@ -52,11 +95,14 @@ export class AppComponent implements OnInit, OnDestroy {
     layout: IKeyboardLayout;
   }[];
 
-  testModelValue = 'Sushi';
+  testModelValue = "Sushi";
 
-  attachModelValue = '';
+  attachModelValue = "";
 
-  testControlValue = new UntypedFormControl({ value: 'Emmentaler', disabled: false });
+  testControlValue = new UntypedFormControl({
+    value: "Emmentaler",
+    disabled: false,
+  });
 
   get keyboardVisible(): boolean {
     return this._keyboardService.isOpened;
@@ -64,11 +110,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.defaultLocale = ` ${this.locale}`.slice(1);
-    this.layouts = Object
-      .keys(this._layouts)
+    this.layouts = Object.keys(this._layouts)
       .map((name: string) => ({
         name,
-        layout: this._layouts[name]
+        layout: this._layouts[name],
       }))
       .sort((a, b) => a.layout.name.localeCompare(b.layout.name));
   }
@@ -79,12 +124,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   submitForm(form?: NgForm) {
     const submittedForms = this._submittedForms.getValue();
-    const submittedForm = Object
-      .keys(form.controls)
-      .map((control: string) => ({
-        control,
-        value: form.controls[control].value
-      }));
+    const submittedForm = Object.keys(form.controls).map((control: string) => ({
+      control,
+      value: form.controls[control].value,
+    }));
     submittedForms.push(submittedForm);
     this._submittedForms.next(submittedForms);
   }
@@ -93,11 +136,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this._keyboardRef = this._keyboardService.open(locale, {
       darkTheme: this.darkTheme,
       duration: this.duration,
-      isDebug: this.isDebug
+      isDebug: this.isDebug,
     });
-    this._enterSubscription = this._keyboardRef.instance.enterClick.subscribe(() => {
-      this.submitForm();
-    });
+    this._enterSubscription = this._keyboardRef.instance.enterClick.subscribe(
+      () => {
+        this.submitForm();
+      },
+    );
   }
 
   closeCurrentKeyboard() {
@@ -114,7 +159,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this._keyboardRef = this._keyboardService.open(locale, {
       darkTheme: this.darkTheme,
       duration: this.duration,
-      isDebug: this.isDebug
+      isDebug: this.isDebug,
     });
 
     // reference the input element
@@ -133,5 +178,4 @@ export class AppComponent implements OnInit, OnDestroy {
     this.darkTheme = toggle.checked;
     this._keyboardRef.instance.darkTheme = this.darkTheme;
   }
-
 }

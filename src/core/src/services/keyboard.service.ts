@@ -1,17 +1,20 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { ComponentRef, Injectable, LOCALE_ID, inject } from '@angular/core';
+import { LiveAnnouncer } from "@angular/cdk/a11y";
+import { Overlay, OverlayConfig, OverlayRef } from "@angular/cdk/overlay";
+import { ComponentPortal } from "@angular/cdk/portal";
+import { ComponentRef, Injectable, LOCALE_ID, inject } from "@angular/core";
 
-import { MatKeyboardRef } from '../classes/keyboard-ref.class';
-import { MatKeyboardContainerComponent } from '../components/keyboard-container/keyboard-container.component';
-import { MatKeyboardComponent } from '../components/keyboard/keyboard.component';
-import { MAT_KEYBOARD_LAYOUTS } from '../configs/keyboard-layouts.config';
-import { MatKeyboardConfig } from '../configs/keyboard.config';
-import { IKeyboardLayout } from '../interfaces/keyboard-layout.interface';
-import { IKeyboardLayouts } from '../interfaces/keyboard-layouts.interface';
-import { ILocaleMap } from '../interfaces/locale-map.interface';
-import { _applyAvailableLayouts, _applyConfigDefaults } from '../utils/keyboard.utils';
+import { MatKeyboardRef } from "../classes/keyboard-ref.class";
+import { MatKeyboardContainerComponent } from "../components/keyboard-container/keyboard-container.component";
+import { MatKeyboardComponent } from "../components/keyboard/keyboard.component";
+import { MAT_KEYBOARD_LAYOUTS } from "../configs/keyboard-layouts.config";
+import { MatKeyboardConfig } from "../configs/keyboard.config";
+import { IKeyboardLayout } from "../interfaces/keyboard-layout.interface";
+import { IKeyboardLayouts } from "../interfaces/keyboard-layouts.interface";
+import { ILocaleMap } from "../interfaces/locale-map.interface";
+import {
+  _applyAvailableLayouts,
+  _applyConfigDefaults,
+} from "../utils/keyboard.utils";
 
 /**
  * Service to dispatch Material Design keyboard.
@@ -24,7 +27,10 @@ export class MatKeyboardService {
   private live = inject(LiveAnnouncer);
   private defaultLocale = inject(LOCALE_ID);
   private layouts = inject<IKeyboardLayouts>(MAT_KEYBOARD_LAYOUTS);
-  private parentKeyboard = inject(MatKeyboardService, { optional: true, skipSelf: true });
+  private parentKeyboard = inject(MatKeyboardService, {
+    optional: true,
+    skipSelf: true,
+  });
 
   private _enableDirective = true;
 
@@ -33,7 +39,8 @@ export class MatKeyboardService {
    * If there is a parent keyboard service, all operations should delegate to that parent
    * via `_openedKeyboardRef`.
    */
-  private keyboardRefAtThisLevel: MatKeyboardRef<MatKeyboardComponent> | null = null;
+  private keyboardRefAtThisLevel: MatKeyboardRef<MatKeyboardComponent> | null =
+    null;
 
   private _availableLocales: ILocaleMap = {};
 
@@ -79,8 +86,12 @@ export class MatKeyboardService {
    * @param layoutOrLocale layout or locale to use.
    * @param config Extra configuration for the keyboard.
    */
-  openFromComponent(layoutOrLocale: string, config: MatKeyboardConfig): MatKeyboardRef<MatKeyboardComponent> {
-    const keyboardRef: MatKeyboardRef<MatKeyboardComponent> = this._attachKeyboardContent(config);
+  openFromComponent(
+    layoutOrLocale: string,
+    config: MatKeyboardConfig,
+  ): MatKeyboardRef<MatKeyboardComponent> {
+    const keyboardRef: MatKeyboardRef<MatKeyboardComponent> =
+      this._attachKeyboardContent(config);
 
     keyboardRef.instance.darkTheme = config.darkTheme;
     keyboardRef.instance.isDebug = config.isDebug;
@@ -94,7 +105,9 @@ export class MatKeyboardService {
     // a layout name is provided
     if (this.layouts[layoutOrLocale]) {
       keyboardRef.instance.layout = this.layouts[layoutOrLocale];
-      keyboardRef.instance.locale = this.layouts[layoutOrLocale].lang && this.layouts[layoutOrLocale].lang.pop();
+      keyboardRef.instance.locale =
+        this.layouts[layoutOrLocale].lang &&
+        this.layouts[layoutOrLocale].lang.pop();
     }
 
     if (config.customIcons) {
@@ -102,23 +115,19 @@ export class MatKeyboardService {
     }
 
     // When the keyboard is dismissed, lower the keyboard counter.
-    keyboardRef
-      .afterDismissed()
-      .subscribe(() => {
-        // Clear the keyboard ref if it hasn't already been replaced by a newer keyboard.
-        if (this._openedKeyboardRef === keyboardRef) {
-          this._openedKeyboardRef = null;
-        }
-      });
+    keyboardRef.afterDismissed().subscribe(() => {
+      // Clear the keyboard ref if it hasn't already been replaced by a newer keyboard.
+      if (this._openedKeyboardRef === keyboardRef) {
+        this._openedKeyboardRef = null;
+      }
+    });
 
     if (this._openedKeyboardRef) {
       // If a keyboard is already in view, dismiss it and enter the
       // new keyboard after exit animation is complete.
-      this._openedKeyboardRef
-        .afterDismissed()
-        .subscribe(() => {
-          keyboardRef.containerInstance.enter();
-        });
+      this._openedKeyboardRef.afterDismissed().subscribe(() => {
+        keyboardRef.containerInstance.enter();
+      });
       this._openedKeyboardRef.dismiss();
     } else {
       // If no keyboard is in view, enter the new keyboard.
@@ -145,7 +154,10 @@ export class MatKeyboardService {
    * @param layoutOrLocale A string representing the locale or the layout name to be used.
    * @param config Additional configuration options for the keyboard.
    */
-  open(layoutOrLocale: string = this.defaultLocale, config: MatKeyboardConfig = {}): MatKeyboardRef<MatKeyboardComponent> {
+  open(
+    layoutOrLocale: string = this.defaultLocale,
+    config: MatKeyboardConfig = {},
+  ): MatKeyboardRef<MatKeyboardComponent> {
     const _config = _applyConfigDefaults(config);
 
     return this.openFromComponent(layoutOrLocale, _config);
@@ -166,9 +178,7 @@ export class MatKeyboardService {
    */
   mapLocale(locale: string = this.defaultLocale): string {
     let layout: string;
-    const country = locale
-      .split('-')
-      .shift();
+    const country = locale.split("-").shift();
 
     // search for layout matching the
     // first part, the country code
@@ -195,9 +205,16 @@ export class MatKeyboardService {
   /**
    * Attaches the keyboard container component to the overlay.
    */
-  private _attachKeyboardContainer(overlayRef: OverlayRef, config: MatKeyboardConfig): MatKeyboardContainerComponent {
-    const containerPortal = new ComponentPortal(MatKeyboardContainerComponent, config.viewContainerRef);
-    const containerRef: ComponentRef<MatKeyboardContainerComponent> = overlayRef.attach(containerPortal);
+  private _attachKeyboardContainer(
+    overlayRef: OverlayRef,
+    config: MatKeyboardConfig,
+  ): MatKeyboardContainerComponent {
+    const containerPortal = new ComponentPortal(
+      MatKeyboardContainerComponent,
+      config.viewContainerRef,
+    );
+    const containerRef: ComponentRef<MatKeyboardContainerComponent> =
+      overlayRef.attach(containerPortal);
 
     // set config
     containerRef.instance.keyboardConfig = config;
@@ -208,12 +225,18 @@ export class MatKeyboardService {
   /**
    * Places a new component as the content of the keyboard container.
    */
-  private _attachKeyboardContent(config: MatKeyboardConfig): MatKeyboardRef<MatKeyboardComponent> {
+  private _attachKeyboardContent(
+    config: MatKeyboardConfig,
+  ): MatKeyboardRef<MatKeyboardComponent> {
     const overlayRef = this._createOverlay();
     const container = this._attachKeyboardContainer(overlayRef, config);
     const portal = new ComponentPortal(MatKeyboardComponent);
     const contentRef = container.attachComponentPortal(portal);
-    return new MatKeyboardRef(contentRef.instance, container, overlayRef) as MatKeyboardRef<MatKeyboardComponent>;
+    return new MatKeyboardRef(
+      contentRef.instance,
+      container,
+      overlayRef,
+    ) as MatKeyboardRef<MatKeyboardComponent>;
   }
 
   /**
@@ -221,14 +244,14 @@ export class MatKeyboardService {
    */
   private _createOverlay(): OverlayRef {
     const state = new OverlayConfig({
-      width: '100%'
+      width: "100%",
     });
 
     state.positionStrategy = this.overlay
       .position()
       .global()
       .centerHorizontally()
-      .bottom('0');
+      .bottom("0");
 
     return this.overlay.create(state);
   }

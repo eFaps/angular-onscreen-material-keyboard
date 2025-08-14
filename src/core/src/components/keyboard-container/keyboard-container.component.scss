@@ -1,5 +1,5 @@
-@use '@angular/material' as mat;
-@use '@angular/cdk' as cdk;
+@use "@angular/material" as mat;
+@use "@angular/cdk" as cdk;
 
 $mat-keyboard-min-width: 568px !default;
 $mat-keyboard-max-width: 960px !default;
@@ -15,21 +15,11 @@ $mat-keyboard-max-width: 960px !default;
   // Initial transformation is applied to start keyboard out of view.
   transform: translateY(100%);
   transition: transform 0.5s ease-in-out;
-  
 
   @include cdk.high-contrast {
     border: solid 1px;
   }
   &.visible {
-    transform: translateY(0%); 
-  }  
+    transform: translateY(0%);
+  }
 }
- 
-
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 // '@angular/cdk/overlay-prebuilt.css';
 
@@ -28,27 +28,40 @@ $mat-keyboard-capslock-shine: #adff2f !default;
     width: 100%;
 
     &-active {
-      background-color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 300);
+      background-color: mat.m2-get-color-from-palette(
+        mat.$m2-grey-palette,
+        300
+      );
     }
 
     &-pressed {
-      background-color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 400);
+      background-color: mat.m2-get-color-from-palette(
+        mat.$m2-grey-palette,
+        400
+      );
     }
 
     // special treatment for caps lock
     &-capslock {
-      background-color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 'A100');
+      background-color: mat.m2-get-color-from-palette(
+        mat.$m2-grey-palette,
+        "A100"
+      );
 
       &:before {
-        background-color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 400);
+        background-color: mat.m2-get-color-from-palette(
+          mat.$m2-grey-palette,
+          400
+        );
         border-radius: 100%;
-        content: '';
+        content: "";
         display: inline-block;
         height: 3px;
         left: 5px;
         position: absolute;
         top: 5px;
-        transition: $mat-keyboard-capslock-animation-duration $mat-keyboard-capslock-animation-timing-function;
+        transition: $mat-keyboard-capslock-animation-duration
+          $mat-keyboard-capslock-animation-timing-function;
         transition-property: background-color, box-shadow;
         width: 3px;
       }
@@ -65,11 +78,17 @@ $mat-keyboard-capslock-shine: #adff2f !default;
     color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 100);
 
     &-active {
-      background-color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 500);
+      background-color: mat.m2-get-color-from-palette(
+        mat.$m2-grey-palette,
+        500
+      );
     }
 
     &-pressed {
-      background-color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 600);
+      background-color: mat.m2-get-color-from-palette(
+        mat.$m2-grey-palette,
+        600
+      );
     }
   }
 

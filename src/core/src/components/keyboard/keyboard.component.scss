@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 $mat-typography-config: mat.m2-define-typography-config();
 $mat-keyboard-button-distance: 8px !default;
@@ -19,7 +19,10 @@ $mat-keyboard-padding: 14px 24px !default;
     padding: $mat-keyboard-padding;
 
     &.dark-theme {
-      background-color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 800);
+      background-color: mat.m2-get-color-from-palette(
+        mat.$m2-grey-palette,
+        800
+      );
     }
   }
 

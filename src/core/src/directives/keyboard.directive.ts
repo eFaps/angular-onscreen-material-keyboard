@@ -1,15 +1,23 @@
-import { Directive, ElementRef, OnDestroy, inject, input, output } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy,
+  inject,
+  input,
+  output,
+} from "@angular/core";
+import { NgControl } from "@angular/forms";
 
-import { MatKeyboardRef } from '../classes/keyboard-ref.class';
-import { MatKeyboardComponent } from '../components/keyboard/keyboard.component';
-import { MatKeyboardService } from '../services/keyboard.service';
+import { MatKeyboardRef } from "../classes/keyboard-ref.class";
+import { MatKeyboardComponent } from "../components/keyboard/keyboard.component";
+import { MatKeyboardService } from "../services/keyboard.service";
 
-@Directive({ selector: 'input[matKeyboard], textarea[matKeyboard]', 
+@Directive({
+  selector: "input[matKeyboard], textarea[matKeyboard]",
   host: {
-    "(focus)" :"onFocus()",
-    "(blur)" :"onBlur()"
-  }
+    "(focus)": "onFocus()",
+    "(blur)": "onBlur()",
+  },
 })
 export class MatKeyboardDirective implements OnDestroy {
   private elementRef = inject(ElementRef);
@@ -43,7 +51,7 @@ export class MatKeyboardDirective implements OnDestroy {
       this.keyboardRef = this.keyboardService.open(this.matKeyboard(), {
         darkTheme: this.darkTheme(),
         duration: this.duration(),
-        isDebug: this.isDebug()
+        isDebug: this.isDebug(),
       });
 
       // reference the input element
@@ -55,10 +63,16 @@ export class MatKeyboardDirective implements OnDestroy {
       }
 
       // connect outputs
-      this.keyboardRef.instance.enterClick.subscribe(() => this.enterClick.emit());
-      this.keyboardRef.instance.capsClick.subscribe(() => this.capsClick.emit());
+      this.keyboardRef.instance.enterClick.subscribe(() =>
+        this.enterClick.emit(),
+      );
+      this.keyboardRef.instance.capsClick.subscribe(() =>
+        this.capsClick.emit(),
+      );
       this.keyboardRef.instance.altClick.subscribe(() => this.altClick.emit());
-      this.keyboardRef.instance.shiftClick.subscribe(() => this.shiftClick.emit());
+      this.keyboardRef.instance.shiftClick.subscribe(() =>
+        this.shiftClick.emit(),
+      );
     }
   }
 

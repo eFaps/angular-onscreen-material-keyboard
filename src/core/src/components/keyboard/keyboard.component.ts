@@ -1,38 +1,53 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, LOCALE_ID, OnInit, inject, viewChildren } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { MatKeyboardRef } from '../../classes/keyboard-ref.class';
-import { KEYBOARD_ICONS } from '../../configs/keyboard-icons.config';
-import { KeyboardClassKey } from '../../enums/keyboard-class-key.enum';
-import { KeyboardModifier } from '../../enums/keyboard-modifier.enum';
-import { IKeyboardIcons, IMatIcon } from '../../interfaces/keyboard-icons.interface';
-import { IKeyboardLayout } from '../../interfaces/keyboard-layout.interface';
-import { MatKeyboardService } from '../../services/keyboard.service';
-import { MatKeyboardKeyComponent } from '../keyboard-key/keyboard-key.component';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe } from "@angular/common";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  LOCALE_ID,
+  OnInit,
+  inject,
+  viewChildren,
+} from "@angular/core";
+import { AbstractControl, FormControl } from "@angular/forms";
+import { BehaviorSubject, Observable } from "rxjs";
+
+import { MatKeyboardRef } from "../../classes/keyboard-ref.class";
+import { KEYBOARD_ICONS } from "../../configs/keyboard-icons.config";
+import { KeyboardClassKey } from "../../enums/keyboard-class-key.enum";
+import { KeyboardModifier } from "../../enums/keyboard-modifier.enum";
+import {
+  IKeyboardIcons,
+  IMatIcon,
+} from "../../interfaces/keyboard-icons.interface";
+import { IKeyboardLayout } from "../../interfaces/keyboard-layout.interface";
+import { MatKeyboardService } from "../../services/keyboard.service";
+import { MatKeyboardKeyComponent } from "../keyboard-key/keyboard-key.component";
 
 /**
  * A component used to open as the default keyboard, matching material spec.
  * This should only be used internally by the keyboard service.
  */
 @Component({
-    selector: 'mat-keyboard',
-    templateUrl: './keyboard.component.html',
-    styleUrls: ['./keyboard.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    preserveWhitespaces: false,
-    imports: [MatKeyboardKeyComponent, AsyncPipe]
+  selector: "mat-keyboard",
+  templateUrl: "./keyboard.component.html",
+  styleUrls: ["./keyboard.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  preserveWhitespaces: false,
+  imports: [MatKeyboardKeyComponent, AsyncPipe],
 })
 export class MatKeyboardComponent implements OnInit {
   private _locale = inject(LOCALE_ID);
   private _keyboardService = inject(MatKeyboardService);
 
-
   private _darkTheme: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   private _isDebug: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  private _inputInstance$: BehaviorSubject<ElementRef | null> = new BehaviorSubject(null);
+  private _inputInstance$: BehaviorSubject<ElementRef | null> =
+    new BehaviorSubject(null);
 
   private readonly _keys = viewChildren(MatKeyboardKeyComponent);
 
@@ -52,7 +67,7 @@ export class MatKeyboardComponent implements OnInit {
   // the instance of the component making up the content of the keyboard
   keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
 
-  @HostBinding('class.mat-keyboard')
+  @HostBinding("class.mat-keyboard")
   cssClass = true;
 
   enterClick: EventEmitter<void> = new EventEmitter<void>();
@@ -92,8 +107,8 @@ export class MatKeyboardComponent implements OnInit {
     return this._isDebug.asObservable();
   }
 
-  get control(){
-    return this._control as FormControl
+  get control() {
+    return this._control as FormControl;
   }
 
   setInputInstance(inputInstance: ElementRef) {
@@ -107,7 +122,9 @@ export class MatKeyboardComponent implements OnInit {
   ngOnInit() {
     // set a fallback using the locale
     if (!this.layout) {
-      this.locale = this._keyboardService.mapLocale(this._locale) ? this._locale : 'en-US';
+      this.locale = this._keyboardService.mapLocale(this._locale)
+        ? this._locale
+        : "en-US";
       this.layout = this._keyboardService.getLayoutForLocale(this.locale);
     }
   }
@@ -126,8 +143,10 @@ export class MatKeyboardComponent implements OnInit {
    */
   isActive(key: (string | KeyboardClassKey)[]): boolean {
     const modifiedKey: string = this.getModifiedKey(key);
-    const isActiveCapsLock: boolean = modifiedKey === KeyboardClassKey.Caps && this._capsLocked;
-    const isActiveModifier: boolean = modifiedKey === KeyboardModifier[this._modifier];
+    const isActiveCapsLock: boolean =
+      modifiedKey === KeyboardClassKey.Caps && this._capsLocked;
+    const isActiveModifier: boolean =
+      modifiedKey === KeyboardModifier[this._modifier];
     return isActiveCapsLock || isActiveModifier;
   }
 
@@ -152,7 +171,7 @@ export class MatKeyboardComponent implements OnInit {
    * listens to users keyboard inputs to simulate on virtual keyboard, too
    * @param event
    */
-  @HostListener('document:keydown', ['$event'])
+  @HostListener("document:keydown", ["$event"])
   onKeyDown(event: KeyboardEvent) {
     // 'activate' corresponding key
     this._keys()
@@ -165,10 +184,18 @@ export class MatKeyboardComponent implements OnInit {
     if (event.key === KeyboardClassKey.Caps) {
       this.onCapsClick(event.getModifierState(KeyboardClassKey.Caps));
     }
-    if (event.key === KeyboardClassKey.Alt && this._modifier !== KeyboardModifier.Alt && this._modifier !== KeyboardModifier.ShiftAlt) {
+    if (
+      event.key === KeyboardClassKey.Alt &&
+      this._modifier !== KeyboardModifier.Alt &&
+      this._modifier !== KeyboardModifier.ShiftAlt
+    ) {
       this.onAltClick();
     }
-    if (event.key === KeyboardClassKey.Shift && this._modifier !== KeyboardModifier.Shift && this._modifier !== KeyboardModifier.ShiftAlt) {
+    if (
+      event.key === KeyboardClassKey.Shift &&
+      this._modifier !== KeyboardModifier.Shift &&
+      this._modifier !== KeyboardModifier.ShiftAlt
+    ) {
       this.onShiftClick();
     }
   }
@@ -177,7 +204,7 @@ export class MatKeyboardComponent implements OnInit {
    * listens to users keyboard inputs to simulate on virtual keyboard, too
    * @param event
    */
-  @HostListener('document:keyup', ['$event'])
+  @HostListener("document:keyup", ["$event"])
   onKeyUp(event: KeyboardEvent) {
     // 'deactivate' corresponding key
     this._keys()
@@ -187,10 +214,18 @@ export class MatKeyboardComponent implements OnInit {
       });
 
     // simulate modifier release
-    if (event.key === KeyboardClassKey.Alt && (this._modifier === KeyboardModifier.Alt || this._modifier === KeyboardModifier.ShiftAlt)) {
+    if (
+      event.key === KeyboardClassKey.Alt &&
+      (this._modifier === KeyboardModifier.Alt ||
+        this._modifier === KeyboardModifier.ShiftAlt)
+    ) {
       this.onAltClick();
     }
-    if (event.key === KeyboardClassKey.Shift && (this._modifier === KeyboardModifier.Shift || this._modifier === KeyboardModifier.ShiftAlt)) {
+    if (
+      event.key === KeyboardClassKey.Shift &&
+      (this._modifier === KeyboardModifier.Shift ||
+        this._modifier === KeyboardModifier.ShiftAlt)
+    ) {
       this.onShiftClick();
     }
   }
@@ -219,11 +254,17 @@ export class MatKeyboardComponent implements OnInit {
    * non-modifier keys are clicked
    */
   onKeyClick() {
-    if (this._modifier === KeyboardModifier.Shift || this._modifier === KeyboardModifier.ShiftAlt) {
+    if (
+      this._modifier === KeyboardModifier.Shift ||
+      this._modifier === KeyboardModifier.ShiftAlt
+    ) {
       this._modifier = this._invertShiftModifier(this._modifier);
     }
 
-    if (this._modifier === KeyboardModifier.Alt || this._modifier === KeyboardModifier.ShiftAlt) {
+    if (
+      this._modifier === KeyboardModifier.Alt ||
+      this._modifier === KeyboardModifier.ShiftAlt
+    ) {
       this._modifier = this._invertAltModifier(this._modifier);
     }
   }
@@ -281,5 +322,4 @@ export class MatKeyboardComponent implements OnInit {
         return KeyboardModifier.None;
     }
   }
-
 }

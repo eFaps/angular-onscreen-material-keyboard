@@ -1,14 +1,14 @@
-<div class="mat-keyboard-wrapper"
+<div
+  class="mat-keyboard-wrapper"
   [class.dark-theme]="darkTheme$ | async"
-  [class.debug]="isDebug$ | async"
-  >
+  [class.debug]="isDebug$ | async">
   <nav class="mat-keyboard-layout">
     @for (row of layout.keys; track row) {
-      <div class="mat-keyboard-row"
-        >
+      <div class="mat-keyboard-row">
         @for (key of row; track key) {
           @if (getModifiedKey(key)) {
-            <mat-keyboard-key class="mat-keyboard-col"
+            <mat-keyboard-key
+              class="mat-keyboard-col"
               [key]="getModifiedKey(key)"
               [icon]="getKeyIcon(key)"
               [active]="isActive(key)"
@@ -18,8 +18,7 @@
               (capsClick)="onCapsClick()"
               (altClick)="onAltClick()"
               (shiftClick)="onShiftClick()"
-              (keyClick)="onKeyClick()"
-             />
+              (keyClick)="onKeyClick()" />
           }
         }
       </div>
