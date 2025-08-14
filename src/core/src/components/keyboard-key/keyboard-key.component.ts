@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, inject, input, output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { MAT_KEYBOARD_DEADKEYS } from '../../configs/keyboard-deadkey.config';
@@ -62,32 +62,23 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
 
   readonly control = input<UntypedFormControl>(undefined);
 
-  @Output()
-  genericClick = new EventEmitter<MouseEvent>();
+  readonly genericClick = output<MouseEvent>();
 
-  @Output()
-  enterClick = new EventEmitter<MouseEvent>();
+  readonly enterClick = output<MouseEvent>();
 
-  @Output()
-  bkspClick = new EventEmitter<MouseEvent>();
+  readonly bkspClick = output<MouseEvent>();
 
-  @Output()
-  capsClick = new EventEmitter<MouseEvent>();
+  readonly capsClick = output<MouseEvent>();
 
-  @Output()
-  altClick = new EventEmitter<MouseEvent>();
+  readonly altClick = output<MouseEvent>();
 
-  @Output()
-  shiftClick = new EventEmitter<MouseEvent>();
+  readonly shiftClick = output<MouseEvent>();
 
-  @Output()
-  spaceClick = new EventEmitter<MouseEvent>();
+  readonly spaceClick = output<MouseEvent>();
 
-  @Output()
-  tabClick = new EventEmitter<MouseEvent>();
+  readonly tabClick = output<MouseEvent>();
 
-  @Output()
-  keyClick = new EventEmitter<MouseEvent>();
+  readonly keyClick = output<MouseEvent>();
 
   get lowerKey(): string {
     return `${this.key()}`.toLowerCase();
@@ -274,22 +265,26 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
         case KeyboardClassKey.Bksp:
           keyFn = () => {
             this.deleteSelectedText();
+            // TODO: The 'emit' function requires a mandatory MouseEvent argument
             this.bkspClick.emit();
           };
           break;
 
         case KeyboardClassKey.Space:
           char = VALUE_SPACE;
+          keyFn = () => // TODO: The 'emit' function requires a mandatory MouseEvent argument
           keyFn = () => this.spaceClick.emit();
           break;
 
         case KeyboardClassKey.Tab:
           char = VALUE_TAB;
+          keyFn = () => // TODO: The 'emit' function requires a mandatory MouseEvent argument
           keyFn = () => this.tabClick.emit();
           break;
 
         default:
           char = `${key}`;
+          keyFn = () => // TODO: The 'emit' function requires a mandatory MouseEvent argument
           keyFn = () => this.keyClick.emit();
           break;
       }
