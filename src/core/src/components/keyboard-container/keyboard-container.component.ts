@@ -41,6 +41,7 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
   // the keyboard configuration
   keyboardConfig: MatKeyboardConfig;
 
+  hasTransitionend = false
 
   @HostListener('mousedown', ['$event'])
   onMousedown(event: MouseEvent) {
@@ -73,6 +74,10 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
   /** Begin animation of the snack bar exiting from view. */
   exit(): Observable<void> {
     this.isVisible.set(false)
+    if (!this.hasTransitionend) {
+       this.onExit.next();
+      this. onExit.complete();
+    }
     return this.onExit;
   }
 
@@ -87,12 +92,11 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
 
 
   transitionend() {
+    this.hasTransitionend = true
     if (this.isVisible()) {
-      console.log('enter')
       this.onEnter.next();
       this. onEnter.complete();
     } else {
-      console.log('exit')
       this.onExit.next();
       this. onExit.complete();
     }

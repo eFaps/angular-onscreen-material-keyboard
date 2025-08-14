@@ -64,6 +64,7 @@ export class MatKeyboardDirective implements OnDestroy {
   }
 
   public onBlur() {
+     console.log('blurevent')
     if (this._keyboardRef) {
       this._keyboardRef.dismiss();
     }
