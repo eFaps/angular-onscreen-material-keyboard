@@ -81,7 +81,7 @@
           "options": {
             "main": "src/demo/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/demo/polyfills.ts",
+            "polyfills": ["src/demo/polyfills.ts"],
             "tsConfig": "src/demo/tsconfig.spec.json",
             "scripts": [],
             "styles": [
