@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/eFaps/angular-onscreen-material-keyboard.git"
   },
-  "author": "Iris X, Daniel M, Kenneth A",
+  "author": "Iris X, Daniel M, Kenneth A, Jan Moxter",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/angular-onscreen-material-keyboard/issues"
@@ -22,7 +22,11 @@
     "build:docs": "compodoc ./src/core -p ./tsconfig.json --silent --disableCoverage --theme readthedocs --output ./dist/docs",
     "test": "ng test --browsers ChromeHeadlessNoSandbox --no-progress --no-watch",
     "lint": "ng lint",
-    "postinstall": "npm rebuild node-sass"
+    "postinstall": "npm rebuild node-sass",
+    "prettier-html": "prettier --print-width 100 --write \"src/**/*.html\" ",
+    "prettier-scss": "prettier --write \"src/**/*.scss\" ",
+    "prettier-ts": "prettier --write \"src/**/*.ts\"",
+    "prettier": "npm run prettier-html && npm run prettier-scss && npm run prettier-ts"
   },
   "dependencies": {
     "@angular/animations": "^20.1.7",
@@ -66,6 +70,8 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^20.1.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-sort-imports": "^1.8.8",
     "sass-lint": "1.13.1",
     "ts-node": "^10.9.2",
     "typescript": "~5.8.3"
@@ -78,5 +84,29 @@
     "onscreen",
     "typescript",
     "ngx"
-  ]
+  ],
+  "importSort": {
+    ".js, .jsx, .es6, .es": {
+      "parser": "babylon",
+      "style": "eslint"
+    },
+    ".ts, .tsx": {
+      "parser": "typescript",
+      "style": "module"
+    }
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-sort-imports"
+    ],
+    "sortingMethod": "alphabetical",
+    "stripNewlines": true,
+    "newlineBetweenTypes": true,
+    "importTypeOrder": [
+      "NPMPackages",
+      "localImportsValue",
+      "localImportsType"
+    ],
+    "bracketSameLine": true
+  }
 }

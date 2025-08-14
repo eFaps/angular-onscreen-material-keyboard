@@ -25,8 +25,6 @@ const REPEAT_INTERVAL = 100;
 })
 export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   private _deadkeys = inject<IKeyboardDeadkeys>(MAT_KEYBOARD_DEADKEYS);
-
-
   private _deadkeyKeys: string[] = [];
   private _repeatTimeoutHandler: any;
   private _repeatIntervalHandler: any;
