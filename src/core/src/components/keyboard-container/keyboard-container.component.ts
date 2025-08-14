@@ -1,5 +1,5 @@
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
-import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
+import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, PortalHostDirective } from '@angular/cdk/portal';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EmbeddedViewRef, HostBinding, HostListener, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { AnimationCurves, AnimationDurations } from '@angular/material/core';
 import { Observable, Subject } from 'rxjs';
@@ -37,7 +37,7 @@ export const HIDE_ANIMATION = `${AnimationDurations.EXITING} ${AnimationCurves.A
             transition(`${KeyboardAnimationTransition.Show}`, animate(SHOW_ANIMATION))
         ])
     ],
-    standalone: false
+    imports: [PortalHostDirective]
 })
 export class MatKeyboardContainerComponent extends BasePortalOutlet implements OnDestroy {
 

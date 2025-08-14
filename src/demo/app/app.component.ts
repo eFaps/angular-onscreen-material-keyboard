@@ -1,14 +1,21 @@
 import { Component, ElementRef, Inject, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, NgControl, NgForm, NgModel } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { UntypedFormControl, NgControl, NgForm, NgModel, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleChange, MatSlideToggle } from '@angular/material/slide-toggle';
 import { IKeyboardLayout, MatKeyboardComponent, MatKeyboardRef, MatKeyboardService, MAT_KEYBOARD_LAYOUTS } from 'angular-onscreen-material-keyboard';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { MatTabGroup, MatTab, MatTabLabel } from '@angular/material/tabs';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { MatSelect, MatOption } from '@angular/material/select';
+import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { MatFormField, MatInput, MatHint } from '@angular/material/input';
+import { MatKeyboardDirective } from '../../core/src/directives/keyboard.directive';
 
 @Component({
     selector: 'mat-keyboard-demo-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    standalone: false
+    imports: [MatTabGroup, MatTab, MatTabLabel, MatIcon, FormsModule, MatSlideToggle, MatButton, MatSelect, NgFor, MatOption, NgIf, MatFormField, MatInput, MatHint, MatKeyboardDirective, ReactiveFormsModule, AsyncPipe]
 })
 export class AppComponent implements OnInit, OnDestroy {
 

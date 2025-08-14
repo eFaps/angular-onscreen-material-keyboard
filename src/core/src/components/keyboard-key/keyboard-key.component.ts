@@ -5,6 +5,9 @@ import { MAT_KEYBOARD_DEADKEYS } from '../../configs/keyboard-deadkey.config';
 import { KeyboardClassKey } from '../../enums/keyboard-class-key.enum';
 import { IKeyboardDeadkeys } from '../../interfaces/keyboard-deadkeys.interface';
 import { IMatIcon } from '../../interfaces/keyboard-icons.interface';
+import { MatButton } from '@angular/material/button';
+import { NgClass, NgIf, AsyncPipe } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 export const VALUE_NEWLINE = '\n\r';
 export const VALUE_SPACE = ' ';
@@ -18,7 +21,7 @@ const REPEAT_INTERVAL = 100;
     styleUrls: ['./keyboard-key.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
-    standalone: false
+    imports: [MatButton, NgClass, NgIf, MatIcon, AsyncPipe]
 })
 export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
 

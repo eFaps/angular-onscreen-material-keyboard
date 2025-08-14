@@ -32,16 +32,14 @@ import { MatKeyboardService } from './services/keyboard.service';
         MatButtonModule,
         MatCommonModule,
         MatIconModule,
-        MatInputModule
-    ],
-    exports: [
+        MatInputModule,
+        MatKeyboardKebabCasePipe,
         MatKeyboardComponent,
         MatKeyboardContainerComponent,
         MatKeyboardKeyComponent,
         MatKeyboardDirective
     ],
-    declarations: [
-        MatKeyboardKebabCasePipe,
+    exports: [
         MatKeyboardComponent,
         MatKeyboardContainerComponent,
         MatKeyboardKeyComponent,

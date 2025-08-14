@@ -5,10 +5,7 @@ import { MatKeyboardRef } from '../classes/keyboard-ref.class';
 import { MatKeyboardComponent } from '../components/keyboard/keyboard.component';
 import { MatKeyboardService } from '../services/keyboard.service';
 
-@Directive({
-    selector: 'input[matKeyboard], textarea[matKeyboard]',
-    standalone: false
-})
+@Directive({ selector: 'input[matKeyboard], textarea[matKeyboard]' })
 export class MatKeyboardDirective implements OnDestroy {
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
