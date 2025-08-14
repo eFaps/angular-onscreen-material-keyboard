@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 
@@ -44,6 +44,7 @@ bootstrapApplication(AppComponent, {
         // Material modules
         MatButtonModule, MatIconModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatKeyboardModule),
         { provide: MAT_KEYBOARD_LAYOUTS, useValue: customLayouts },
-        provideAnimations()
+        provideAnimations(),
+        provideZonelessChangeDetection(),
     ]
 });

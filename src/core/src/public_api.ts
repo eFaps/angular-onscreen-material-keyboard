@@ -13,8 +13,6 @@ export * from './directives/keyboard.directive';
 
 export * from './enums/keyboard-class-key.enum';
 export * from './enums/keyboard-modifier.enum';
-export * from './enums/keyboard-animation-state.enum';
-export * from './enums/keyboard-animation-transition.enum';
 
 export * from './interfaces/keyboard-deadkeys.interface';
 export * from './interfaces/keyboard-icons.interface';

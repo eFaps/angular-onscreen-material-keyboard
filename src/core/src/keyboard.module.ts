@@ -1,6 +1,6 @@
 // External modules
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, provideZonelessChangeDetection } from '@angular/core';
 // Angular CDK
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
@@ -48,7 +48,8 @@ import { MatKeyboardService } from './services/keyboard.service';
     providers: [
         MatKeyboardService,
         { provide: MAT_KEYBOARD_DEADKEYS, useValue: keyboardDeadkeys },
-        { provide: MAT_KEYBOARD_LAYOUTS, useValue: keyboardLayouts }
+        { provide: MAT_KEYBOARD_LAYOUTS, useValue: keyboardLayouts },
+        provideZonelessChangeDetection(),
     ]
 })
 export class MatKeyboardModule {}

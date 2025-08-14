@@ -18,32 +18,32 @@ import { _applyAvailableLayouts, _applyConfigDefaults } from '../utils/keyboard.
  */
 @Injectable()
 export class MatKeyboardService {
-  private _overlay = inject(Overlay);
-  private _live = inject(LiveAnnouncer);
-  private _defaultLocale = inject(LOCALE_ID);
-  private _layouts = inject<IKeyboardLayouts>(MAT_KEYBOARD_LAYOUTS);
-  private _parentKeyboard = inject(MatKeyboardService, { optional: true, skipSelf: true });
+  private overlay = inject(Overlay);
+  private live = inject(LiveAnnouncer);
+  private defaultLocale = inject(LOCALE_ID);
+  private layouts = inject<IKeyboardLayouts>(MAT_KEYBOARD_LAYOUTS);
+  private parentKeyboard = inject(MatKeyboardService, { optional: true, skipSelf: true });
 
   /**
    * Reference to the current keyboard in the view *at this level* (in the Angular injector tree).
    * If there is a parent keyboard service, all operations should delegate to that parent
    * via `_openedKeyboardRef`.
    */
-  private _keyboardRefAtThisLevel: MatKeyboardRef<MatKeyboardComponent> | null = null;
+  private keyboardRefAtThisLevel: MatKeyboardRef<MatKeyboardComponent> | null = null;
 
   private _availableLocales: ILocaleMap = {};
 
   /** Reference to the currently opened keyboard at *any* level. */
   private get _openedKeyboardRef(): MatKeyboardRef<MatKeyboardComponent> | null {
-    const parent = this._parentKeyboard;
-    return parent ? parent._openedKeyboardRef : this._keyboardRefAtThisLevel;
+    const parent = this.parentKeyboard;
+    return parent ? parent._openedKeyboardRef : this.keyboardRefAtThisLevel;
   }
 
   private set _openedKeyboardRef(value: MatKeyboardRef<MatKeyboardComponent>) {
-    if (this._parentKeyboard) {
-      this._parentKeyboard._openedKeyboardRef = value;
+    if (this.parentKeyboard) {
+      this.parentKeyboard._openedKeyboardRef = value;
     } else {
-      this._keyboardRefAtThisLevel = value;
+      this.keyboardRefAtThisLevel = value;
     }
   }
 
@@ -56,10 +56,8 @@ export class MatKeyboardService {
   }
 
   constructor() {
-    const _layouts = this._layouts;
-
     // prepare available layouts mapping
-    this._availableLocales = _applyAvailableLayouts(_layouts);
+    this._availableLocales = _applyAvailableLayouts(this.layouts);
   }
 
   /**
@@ -82,9 +80,9 @@ export class MatKeyboardService {
     }
 
     // a layout name is provided
-    if (this._layouts[layoutOrLocale]) {
-      keyboardRef.instance.layout = this._layouts[layoutOrLocale];
-      keyboardRef.instance.locale = this._layouts[layoutOrLocale].lang && this._layouts[layoutOrLocale].lang.pop();
+    if (this.layouts[layoutOrLocale]) {
+      keyboardRef.instance.layout = this.layouts[layoutOrLocale];
+      keyboardRef.instance.locale = this.layouts[layoutOrLocale].lang && this.layouts[layoutOrLocale].lang.pop();
     }
 
     if (config.customIcons) {
@@ -123,7 +121,7 @@ export class MatKeyboardService {
     // }
 
     if (config.announcementMessage) {
-      this._live.announce(config.announcementMessage, config.politeness);
+      this.live.announce(config.announcementMessage, config.politeness);
     }
 
     this._openedKeyboardRef = keyboardRef;
@@ -135,7 +133,7 @@ export class MatKeyboardService {
    * @param layoutOrLocale A string representing the locale or the layout name to be used.
    * @param config Additional configuration options for the keyboard.
    */
-  open(layoutOrLocale: string = this._defaultLocale, config: MatKeyboardConfig = {}): MatKeyboardRef<MatKeyboardComponent> {
+  open(layoutOrLocale: string = this.defaultLocale, config: MatKeyboardConfig = {}): MatKeyboardRef<MatKeyboardComponent> {
     const _config = _applyConfigDefaults(config);
 
     return this.openFromComponent(layoutOrLocale, _config);
@@ -154,7 +152,7 @@ export class MatKeyboardService {
    * Map a given locale to a layout name.
    * @param locale The layout name
    */
-  mapLocale(locale: string = this._defaultLocale): string {
+  mapLocale(locale: string = this.defaultLocale): string {
     let layout: string;
     const country = locale
       .split('-')
@@ -179,7 +177,7 @@ export class MatKeyboardService {
   }
 
   getLayoutForLocale(locale: string): IKeyboardLayout {
-    return this._layouts[this.mapLocale(locale)];
+    return this.layouts[this.mapLocale(locale)];
   }
 
   /**
@@ -214,12 +212,12 @@ export class MatKeyboardService {
       width: '100%'
     });
 
-    state.positionStrategy = this._overlay
+    state.positionStrategy = this.overlay
       .position()
       .global()
       .centerHorizontally()
       .bottom('0');
 
-    return this._overlay.create(state);
+    return this.overlay.create(state);
   }
 }
