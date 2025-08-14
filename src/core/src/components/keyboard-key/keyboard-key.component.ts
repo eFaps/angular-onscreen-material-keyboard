@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, inject, input } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { MAT_KEYBOARD_DEADKEYS } from '../../configs/keyboard-deadkey.config';
@@ -36,11 +36,9 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
 
   pressed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  @Input()
-  key: string | KeyboardClassKey;
+  readonly key = input<string | KeyboardClassKey>(undefined);
 
-  @Input()
-  icon: IMatIcon;
+  readonly icon = input<IMatIcon>(undefined);
 
   @Input()
   set active(active: boolean) {
@@ -60,11 +58,9 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
     return this.pressed$.getValue();
   }
 
-  @Input()
-  input?: ElementRef;
+  readonly input = input<ElementRef>(undefined);
 
-  @Input()
-  control?: UntypedFormControl;
+  readonly control = input<UntypedFormControl>(undefined);
 
   @Output()
   genericClick = new EventEmitter<MouseEvent>();
@@ -94,39 +90,40 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   keyClick = new EventEmitter<MouseEvent>();
 
   get lowerKey(): string {
-    return `${this.key}`.toLowerCase();
+    return `${this.key()}`.toLowerCase();
   }
 
   get charCode(): number {
-    return `${this.key}`.charCodeAt(0);
+    return `${this.key()}`.charCodeAt(0);
   }
 
   get isClassKey(): boolean {
-    return this.key in KeyboardClassKey;
+    return this.key() in KeyboardClassKey;
   }
 
   get isDeadKey(): boolean {
-    return this._deadkeyKeys.some((deadKey: string) => deadKey === `${this.key}`);
+    return this._deadkeyKeys.some((deadKey: string) => deadKey === `${this.key()}`);
   }
 
   get hasIcon(): boolean {
-    return this.icon !== undefined && this.icon !== null;
+    const icon = this.icon();
+    return icon !== undefined && icon !== null;
   }
 
   get iconName(): string {
-    return this.icon.name || '';
+    return this.icon().name || '';
   }
 
   get fontSet(): string {
-    return this.icon.fontSet || '';
+    return this.icon().fontSet || '';
   }
 
   get fontIcon(): string {
-    return this.icon.fontIcon || '';
+    return this.icon().fontIcon || '';
   }
 
   get svgIcon(): string {
-    return this.icon.svgIcon || '';
+    return this.icon().svgIcon || '';
   }
 
   get cssClass(): string {
@@ -145,20 +142,24 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   }
 
   get inputValue(): string {
-    if (this.control) {
-      return this.control.value;
-    } else if (this.input && this.input.nativeElement && this.input.nativeElement.value) {
-      return this.input.nativeElement.value;
+    const control = this.control();
+    const input = this.input();
+    if (control) {
+      return control.value;
+    } else if (input && input.nativeElement && input.nativeElement.value) {
+      return input.nativeElement.value;
     } else {
       return '';
     }
   }
 
   set inputValue(inputValue: string) {
-    if (this.control) {
-      this.control.setValue(inputValue);
-    } else if (this.input && this.input.nativeElement) {
-      this.input.nativeElement.value = inputValue;
+    const control = this.control();
+    const input = this.input();
+    if (control) {
+      control.setValue(inputValue);
+    } else if (input && input.nativeElement) {
+      input.nativeElement.value = inputValue;
     }
   }
 
@@ -182,10 +183,11 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
     // this._triggerKeyEvent();
 
     // Manipulate the focused input / textarea value
-    const caret = this.input ? this._getCursorPosition() : 0;
+    const caret = this.input() ? this._getCursorPosition() : 0;
 
     let char: string;
-    switch (this.key) {
+    const key = this.key();
+    switch (key) {
       // this keys have no actions yet
       // TODO: add deadkeys and modifiers
       case KeyboardClassKey.Alt:
@@ -230,20 +232,21 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
 
       default:
         // the key is not mapped or a string
-        char = `${this.key}`;
+        char = `${key}`;
         this.keyClick.emit(event);
         break;
     }
 
-    if (char && this.input) {
+    const input = this.input();
+    if (char && input) {
       this.replaceSelectedText(char);
       this._setCursorPosition(caret + 1);
     }
 
     // Dispatch Input Event for Angular to register a change
-    if (this.input && this.input.nativeElement) {
+    if (input && input.nativeElement) {
       setTimeout(() => {
-        this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
+        this.input().nativeElement.dispatchEvent(new Event('input', { bubbles: true }));
       });
     }
   }
@@ -257,7 +260,8 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
       let char: string;
       let keyFn: () => void;
 
-      switch (this.key) {
+      const key = this.key();
+      switch (key) {
         // Ignore non-repeating keys
         case KeyboardClassKey.Alt:
         case KeyboardClassKey.AltGr:
@@ -285,25 +289,26 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
           break;
 
         default:
-          char = `${this.key}`;
+          char = `${key}`;
           keyFn = () => this.keyClick.emit();
           break;
       }
 
       // Execute repeating keypress
       this._repeatIntervalHandler = setInterval(() => {
-        const caret = this.input ? this._getCursorPosition() : 0;
+        const caret = this.input() ? this._getCursorPosition() : 0;
         this._repeatState = true;
 
         if (keyFn) { keyFn(); }
 
-        if (char && this.input) {
+        const input = this.input();
+        if (char && input) {
           this.replaceSelectedText(char);
           this._setCursorPosition(caret + 1);
         }
 
-        if (this.input && this.input.nativeElement) {
-          setTimeout(() => this.input.nativeElement.dispatchEvent(new Event('input', { bubbles: true })));
+        if (input && input.nativeElement) {
+          setTimeout(() => this.input().nativeElement.dispatchEvent(new Event('input', { bubbles: true })));
         }
       }, REPEAT_INTERVAL);
     }, REPEAT_TIMEOUT);
@@ -323,7 +328,7 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
 
   private deleteSelectedText(): void {
     const value = this.inputValue ? this.inputValue.toString() : '';
-    let caret = this.input ? this._getCursorPosition() : 0;
+    let caret = this.input() ? this._getCursorPosition() : 0;
     let selectionLength = this._getSelectionLength();
     if (selectionLength === 0) {
       if (caret === 0) {
@@ -343,7 +348,7 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
 
   private replaceSelectedText(char: string): void {
     const value = this.inputValue ? this.inputValue.toString() : '';
-    const caret = this.input ? this._getCursorPosition() : 0;
+    const caret = this.input() ? this._getCursorPosition() : 0;
     const selectionLength = this._getSelectionLength();
     const headPart = value.slice(0, caret);
     const endPart = value.slice(caret + selectionLength);
@@ -375,38 +380,40 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   // inspired by:
   // ref https://stackoverflow.com/a/2897510/1146207
   private _getCursorPosition(): number {
-    if (!this.input) {
+    const input = this.input();
+    if (!input) {
       return;
     }
 
-    if ('selectionStart' in this.input.nativeElement) {
+    if ('selectionStart' in input.nativeElement) {
       // Standard-compliant browsers
-      return this.input.nativeElement.selectionStart;
+      return input.nativeElement.selectionStart;
     } else if ('selection' in window.document) {
       // IE
-      this.input.nativeElement.focus();
+      input.nativeElement.focus();
       const selection: any = window.document['selection'];
       const sel = selection.createRange();
       const selLen = selection.createRange().text.length;
-      sel.moveStart('character', -this.control.value.length);
+      sel.moveStart('character', -this.control().value.length);
 
       return sel.text.length - selLen;
     }
   }
 
   private _getSelectionLength(): number {
-    if (!this.input) {
+    const input = this.input();
+    if (!input) {
       return;
     }
 
-    if ('selectionEnd' in this.input.nativeElement) {
+    if ('selectionEnd' in input.nativeElement) {
       // Standard-compliant browsers
-      return this.input.nativeElement.selectionEnd - this.input.nativeElement.selectionStart;
+      return input.nativeElement.selectionEnd - input.nativeElement.selectionStart;
     }
 
     if ('selection' in window.document) {
       // IE
-      this.input.nativeElement.focus();
+      input.nativeElement.focus();
       const selection: any = window.document['selection'];
       return selection.createRange().text.length;
     }
@@ -416,37 +423,39 @@ export class MatKeyboardKeyComponent implements OnInit, OnDestroy {
   // ref https://stackoverflow.com/a/12518737/1146207
   // tslint:disable one-line
   private _setCursorPosition(position: number): boolean {
-    if (!this.input) {
+    const input = this.input();
+    if (!input) {
       return;
     }
 
-    this.inputValue = this.control.value;
+    this.inputValue = this.control().value;
     // ^ this is used to not only get "focus", but
     // to make sure we don't have it everything -selected-
     // (it causes an issue in chrome, and having it doesn't hurt any other browser)
 
-    if ('createTextRange' in this.input.nativeElement) {
-      const range = this.input.nativeElement.createTextRange();
+    if ('createTextRange' in input.nativeElement) {
+      const range = input.nativeElement.createTextRange();
       range.move('character', position);
       range.select();
       return true;
     } else {
       // (el.selectionStart === 0 added for Firefox bug)
-      if (this.input.nativeElement.selectionStart || this.input.nativeElement.selectionStart === 0) {
-        this.input.nativeElement.focus();
-        this.input.nativeElement.setSelectionRange(position, position);
+      if (input.nativeElement.selectionStart || input.nativeElement.selectionStart === 0) {
+        input.nativeElement.focus();
+        input.nativeElement.setSelectionRange(position, position);
         return true;
       }
       // fail city, fortunately this never happens (as far as I've tested) :)
       else {
-        this.input.nativeElement.focus();
+        input.nativeElement.focus();
         return false;
       }
     }
   }
 
   private _isTextarea(): boolean {
-    return this.input && this.input.nativeElement && this.input.nativeElement.tagName === 'TEXTAREA';
+    const input = this.input();
+    return input && input.nativeElement && input.nativeElement.tagName === 'TEXTAREA';
   }
 
 }

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, inject } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, OnDestroy, Output, inject, input } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 import { MatKeyboardRef } from '../classes/keyboard-ref.class';
@@ -14,13 +14,13 @@ export class MatKeyboardDirective implements OnDestroy {
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
 
-  @Input() matKeyboard: string;
+  readonly matKeyboard = input<string>(undefined);
 
-  @Input() darkTheme: boolean;
+  readonly darkTheme = input<boolean>(undefined);
 
-  @Input() duration: number;
+  readonly duration = input<number>(undefined);
 
-  @Input() isDebug: boolean;
+  readonly isDebug = input<boolean>(undefined);
 
   @Output() enterClick: EventEmitter<void> = new EventEmitter<void>();
 
@@ -36,10 +36,10 @@ export class MatKeyboardDirective implements OnDestroy {
 
   @HostListener('focus', ['$event'])
   public showKeyboard() {
-    this._keyboardRef = this._keyboardService.open(this.matKeyboard, {
-      darkTheme: this.darkTheme,
-      duration: this.duration,
-      isDebug: this.isDebug
+    this._keyboardRef = this._keyboardService.open(this.matKeyboard(), {
+      darkTheme: this.darkTheme(),
+      duration: this.duration(),
+      isDebug: this.isDebug()
     });
 
     // reference the input element

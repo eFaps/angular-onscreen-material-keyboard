@@ -12,6 +12,6 @@
   @if (hasIcon) {
     <mat-icon [fontSet]="fontSet" [fontIcon]="fontIcon" [svgIcon]="svgIcon">{{ iconName }}</mat-icon>
   } @else {
-    {{ key }}
+    {{ key() }}
   }
 </button>

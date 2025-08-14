@@ -157,7 +157,7 @@ export class MatKeyboardComponent implements OnInit {
   onKeyDown(event: KeyboardEvent) {
     // 'activate' corresponding key
     this._keys
-      .filter((key: MatKeyboardKeyComponent) => key.key === event.key)
+      .filter((key: MatKeyboardKeyComponent) => key.key() === event.key)
       .forEach((key: MatKeyboardKeyComponent) => {
         key.pressed = true;
       });
@@ -182,7 +182,7 @@ export class MatKeyboardComponent implements OnInit {
   onKeyUp(event: KeyboardEvent) {
     // 'deactivate' corresponding key
     this._keys
-      .filter((key: MatKeyboardKeyComponent) => key.key === event.key)
+      .filter((key: MatKeyboardKeyComponent) => key.key() === event.key)
       .forEach((key: MatKeyboardKeyComponent) => {
         key.pressed = false;
       });
