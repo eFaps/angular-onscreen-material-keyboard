@@ -1,11 +1,17 @@
-import { Directive, ElementRef, HostListener, OnDestroy, inject, input, output } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, inject, input, output } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 import { MatKeyboardRef } from '../classes/keyboard-ref.class';
 import { MatKeyboardComponent } from '../components/keyboard/keyboard.component';
 import { MatKeyboardService } from '../services/keyboard.service';
 
-@Directive({ selector: 'input[matKeyboard], textarea[matKeyboard]' })
+@Directive({ selector: 'input[matKeyboard], textarea[matKeyboard]', 
+  host: {
+    "(focus)" :"onFocus()",
+    "(blur)" :"onBlur()"
+  },
+  providers: [MatKeyboardService],
+})
 export class MatKeyboardDirective implements OnDestroy {
   private _elementRef = inject(ElementRef);
   private _keyboardService = inject(MatKeyboardService);
@@ -31,11 +37,11 @@ export class MatKeyboardDirective implements OnDestroy {
   readonly shiftClick = output<void>();
 
   ngOnDestroy() {
-    this.hideKeyboard();
+    this.onBlur();
   }
 
-  @HostListener('focus', ['$event'])
-  public showKeyboard() {
+  public onFocus() {
+    console.log('focusevent')
     this._keyboardRef = this._keyboardService.open(this.matKeyboard(), {
       darkTheme: this.darkTheme(),
       duration: this.duration(),
@@ -57,8 +63,7 @@ export class MatKeyboardDirective implements OnDestroy {
     this._keyboardRef.instance.shiftClick.subscribe(() => this.shiftClick.emit());
   }
 
-  @HostListener('blur', ['$event'])
-  public hideKeyboard() {
+  public onBlur() {
     if (this._keyboardRef) {
       this._keyboardRef.dismiss();
     }

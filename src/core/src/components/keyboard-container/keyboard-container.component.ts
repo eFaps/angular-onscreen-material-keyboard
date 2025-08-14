@@ -81,6 +81,8 @@ export class MatKeyboardContainerComponent extends BasePortalOutlet implements O
    */
   ngOnDestroy() {
     this.destroyed = true;
+    this.onExit.next();
+    this. onExit.complete();
   }
 
 
